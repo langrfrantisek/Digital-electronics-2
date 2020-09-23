@@ -12,6 +12,8 @@
 /* Defines -----------------------------------------------------------*/
 #define LED_GREEN   PB5     // AVR pin where green LED is connected
 #define SHORT_DELAY 500      // Delay in miliseconds
+#define LONG_DELAY	1000
+#define SPACE_DELAY 200
 #ifndef F_CPU
 #define F_CPU 16000000      // CPU frequency in Hz required for delay func
 #endif
@@ -42,11 +44,60 @@ int main(void)
     while (1)
     {
         // Pause several miliseconds
-        _delay_ms(SHORT_DELAY);
+        _delay_ms(LONG_DELAY);
 
         // Invert LED in Data Register
         // PORTB = PORTB xor 0010 0000
+        PORTB = PORTB ^ (1<<LED_GREEN); 
+		_delay_ms(LONG_DELAY);			//-
+		PORTB = PORTB ^ (1<<LED_GREEN);
+		_delay_ms(SPACE_DELAY);
+		
+		PORTB = PORTB ^ (1<<LED_GREEN);
+		_delay_ms(SHORT_DELAY);			//.
+		PORTB = PORTB ^ (1<<LED_GREEN);
+		_delay_ms(SPACE_DELAY);
+		
+		PORTB = PORTB ^ (1<<LED_GREEN);
+		_delay_ms(SHORT_DELAY);			//.
+		PORTB = PORTB ^ (1<<LED_GREEN);
+		_delay_ms(SPACE_DELAY);
+		
+		_delay_ms(LONG_DELAY);			//space
+		
+		PORTB = PORTB ^ (1<<LED_GREEN);
+		_delay_ms(SHORT_DELAY);			//.
+		PORTB = PORTB ^ (1<<LED_GREEN);
+		_delay_ms(SPACE_DELAY);
+
+		_delay_ms(LONG_DELAY);			//space
+		
+		PORTB = PORTB ^ (1<<LED_GREEN);
+		_delay_ms(SHORT_DELAY);			//.
+		PORTB = PORTB ^ (1<<LED_GREEN);
+		_delay_ms(SPACE_DELAY);
+
+		PORTB = PORTB ^ (1<<LED_GREEN);
+		_delay_ms(SHORT_DELAY);			//.
+		PORTB = PORTB ^ (1<<LED_GREEN);
+		_delay_ms(SPACE_DELAY);
+		
         PORTB = PORTB ^ (1<<LED_GREEN);
+        _delay_ms(LONG_DELAY);			//-
+        PORTB = PORTB ^ (1<<LED_GREEN);
+        _delay_ms(SPACE_DELAY);		
+
+        PORTB = PORTB ^ (1<<LED_GREEN);
+        _delay_ms(LONG_DELAY);			//-
+        PORTB = PORTB ^ (1<<LED_GREEN);
+        _delay_ms(SPACE_DELAY);
+		
+        PORTB = PORTB ^ (1<<LED_GREEN);
+        _delay_ms(LONG_DELAY);			//-
+        PORTB = PORTB ^ (1<<LED_GREEN);
+        _delay_ms(SPACE_DELAY);
+		
+		_delay_ms(LONG_DELAY);
     }
 
     // Will never reach this
