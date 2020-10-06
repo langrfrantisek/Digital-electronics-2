@@ -53,11 +53,10 @@ int main(void)
 		
 		if (bit_is_clear(PIND, BTN))
 		{	
-		         PORTB = PORTB ^ (1<<LED_GREEN);
-		         PORTC = PORTC ^ (1<<LED_RED);
+			PORTB = PORTB ^ (1<<LED_GREEN);
+			PORTC = PORTC ^ (1<<LED_RED);
 		}
-
-
+		
     }
 
     // Will never reach this
