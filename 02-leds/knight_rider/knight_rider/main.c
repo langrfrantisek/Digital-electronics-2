@@ -20,6 +20,9 @@
 #include <util/delay.h>     // Functions for busy-wait delay loops
 #include <avr/io.h>         // AVR device-specific IO definitions
 
+//Variable for cycles
+uint8_t i;
+
 /* Functions ---------------------------------------------------------*/
 /**
  * Main function where the program execution begins. Knight Rider 
@@ -33,60 +36,32 @@ int main(void)
 	DDRB = DDRB | (1<<LED_3);
 	DDRB = DDRB | (1<<LED_4);
 	DDRB = DDRB | (1<<LED_5);
-    // ...and turn LED off in Data Register
-    PORTB = PORTB & ~(1<<LED_1);
+	
+	// turn LED on in Data Register
+	PORTB = PORTB | (1<<LED_1);
+    // turn LED off in Data Register
 	PORTB = PORTB & ~(1<<LED_2);
 	PORTB = PORTB & ~(1<<LED_3);
 	PORTB = PORTB & ~(1<<LED_4);
 	PORTB = PORTB & ~(1<<LED_5);
-
-
 	
     // Infinite loop
     while (1)
     {
-        // Blinking right
-        _delay_ms(BLINK_DELAY);
-		PORTB = PORTB ^ (1<<LED_1);
-		_delay_ms(BLINK_DELAY);
-		PORTB = PORTB ^ (1<<LED_1);	
-		
-	    _delay_ms(BLINK_DELAY);
-		PORTB = PORTB ^ (1<<LED_2);
-		_delay_ms(BLINK_DELAY);
-		PORTB = PORTB ^ (1<<LED_2);
-		
-        _delay_ms(BLINK_DELAY);
-        PORTB = PORTB ^ (1<<LED_3);
-        _delay_ms(BLINK_DELAY);
-        PORTB = PORTB ^ (1<<LED_3);
-        
-        _delay_ms(BLINK_DELAY);
-        PORTB = PORTB ^ (1<<LED_4);
-        _delay_ms(BLINK_DELAY);
-        PORTB = PORTB ^ (1<<LED_4);
-        
-        _delay_ms(BLINK_DELAY);
-        PORTB = PORTB ^ (1<<LED_5);
-        _delay_ms(BLINK_DELAY);
-        PORTB = PORTB ^ (1<<LED_5);
+		// Blinking right
+		for (i = 0; i < 4; i++)
+		{
+			_delay_ms(BLINK_DELAY);
+			PORTB <<=1;
+		}
 		
 		// Blinking left
-		_delay_ms(BLINK_DELAY);
-		PORTB = PORTB ^ (1<<LED_4);
-		_delay_ms(BLINK_DELAY);
-		PORTB = PORTB ^ (1<<LED_4);
-		
-		_delay_ms(BLINK_DELAY);
-		PORTB = PORTB ^ (1<<LED_3);
-		_delay_ms(BLINK_DELAY);
-		PORTB = PORTB ^ (1<<LED_3);
-		
-		_delay_ms(BLINK_DELAY);
-		PORTB = PORTB ^ (1<<LED_2);
-		_delay_ms(BLINK_DELAY);
-		PORTB = PORTB ^ (1<<LED_2);
-		
+		for (i = 4; i > 0; i--)
+		{
+			_delay_ms(BLINK_DELAY);
+			PORTB >>=1;
+		}
+
     }
 
     // Will never reach this
