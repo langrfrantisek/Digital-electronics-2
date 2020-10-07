@@ -1,1 +1,3 @@
 C:\Users\Fraja\Desktop\Digital-electronics-2\lab1\GccApplication1\GccApplication1\main.c
+
+vstupně výstupní pin poznám tak, že je vyveden z desky na piny
