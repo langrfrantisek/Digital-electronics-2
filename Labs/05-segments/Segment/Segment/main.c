@@ -62,7 +62,7 @@ ISR(TIMER0_OVF_vect)
 {
 	static uint8_t pos = 0;
 	
-	if (pos == 0)
+/*	if (pos == 0)
 	{
 		SEG_update_shift_regs(singles, pos);
 		pos = 1;
@@ -71,7 +71,9 @@ ISR(TIMER0_OVF_vect)
 	{
 		SEG_update_shift_regs(decimals, pos);
 		pos = 0;
-	}
+	}*/
+
+	SEG_update_shift_regs(singles, pos);
 }
 
 /**
@@ -80,7 +82,7 @@ ISR(TIMER0_OVF_vect)
 ISR(TIMER1_OVF_vect)
 {
 	singles++;
-	if (singles > 9)
+	if (singles > 5)
 	{	
 		singles = 0;
 		decimals++;

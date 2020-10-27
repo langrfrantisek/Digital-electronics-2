@@ -20,7 +20,7 @@
 // Active-low digits 0 to 9
 uint8_t segment_value[] = {
 	// abcdefgDP
-	0b00000011,      // Digit 0
+/*	0b00000011,      // Digit 0
 	0b10011111,      // Digit 1
 	0b00100101,      // Digit 2
 	0b00001101,      // Digit 3
@@ -29,7 +29,14 @@ uint8_t segment_value[] = {
 	0b01000001,      // Digit 6
 	0b00011111,      // Digit 7
 	0b00000001,      // Digit 8
-	0b00001001};     // Digit 9
+	0b00001001};     // Digit 9*/
+		
+	0b01111111,
+	0b10111111,
+	0b11011111,
+	0b11101111,
+	0b11110111,
+	0b11111011};
 
 // Active-high position 0 to 3
 uint8_t segment_position[] = {
