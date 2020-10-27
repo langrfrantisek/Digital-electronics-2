@@ -325,8 +325,7 @@ ISR(TIMER1_OVF_vect)
 			decimals = 0;
  1c0:	10 92 0f 01 	sts	0x010F, r1	; 0x80010f <decimals>
 		}
-	}
-     
+	}   
  1c4:	8f 91       	pop	r24
  1c6:	0f 90       	pop	r0
  1c8:	0f be       	out	0x3f, r0	; 63
@@ -371,7 +370,7 @@ void SEG_update_shift_regs(uint8_t segments, uint8_t position)
 	segments = segment_value[segments];     // 0, 1, ..., 9
  1f6:	e8 2f       	mov	r30, r24
  1f8:	f0 e0       	ldi	r31, 0x00	; 0
- 1fa:	ed 5f       	subi	r30, 0xFD	; 253
+ 1fa:	ec 5f       	subi	r30, 0xFC	; 252
  1fc:	fe 4f       	sbci	r31, 0xFE	; 254
  1fe:	10 81       	ld	r17, Z
 	position = segment_position[position];  // 0, 1, 2, 3
@@ -438,6 +437,7 @@ void SEG_update_shift_regs(uint8_t segments, uint8_t position)
 		}
         // Wait 1 us
 		_delay_us(1);
+		
         // Pull CLK high
 		GPIO_write_high(&PORTD, SEGMENT_CLK);
  254:	67 e0       	ldi	r22, 0x07	; 7

@@ -345,17 +345,16 @@ END GROUP
  *(.data)
  *(.data*)
  .data.segment_position
-                0x00800100        0x3 segment.o
+                0x00800100        0x4 segment.o
                 0x00800100                segment_position
  .data.segment_value
-                0x00800103        0xa segment.o
-                0x00800103                segment_value
+                0x00800104        0xa segment.o
+                0x00800104                segment_value
  *(.gnu.linkonce.d*)
  *(.rodata)
  *(.rodata*)
  *(.gnu.linkonce.r*)
                 0x0080010e                . = ALIGN (0x2)
- *fill*         0x0080010d        0x1 
                 0x0080010e                _edata = .
                 0x0080010e                PROVIDE (__data_end, .)
 

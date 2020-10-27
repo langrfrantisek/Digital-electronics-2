@@ -88,6 +88,5 @@ ISR(TIMER1_OVF_vect)
 		{
 			decimals = 0;
 		}
-	}
-     
+	}   
 }
