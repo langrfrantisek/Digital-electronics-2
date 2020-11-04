@@ -86,24 +86,19 @@ ISR(TIMER1_OVF_vect)
 		
 		if (snake_pos < 5)
 		{
-			singles++;
-			//decimals = 0;			
+			singles++;		
 		}
 		
 		if (snake_pos >= 5)
-		{
-			
+		{			
 			decimals++;
 			singles = 0;
 			if (decimals > 9)
 			{
-				decimals = 5;
-				
+				decimals = 5;				
 				snake_pos = 0;
 			}		
-		}		
-		snake_pos++;
-		
-	
-	  
+		}	
+			
+		snake_pos++;	  
 }

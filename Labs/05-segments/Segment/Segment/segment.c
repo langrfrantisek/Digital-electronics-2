@@ -39,7 +39,7 @@ uint8_t segment_value[] = {
 	0b11111111,		//clear
 	0b11101111,		//segment 2 (position 1)
 	0b11110111,
-	0b11111011,
+	0b11111011,                   
 	0b01111111};	
 
 // Active-high position 0 to 3
