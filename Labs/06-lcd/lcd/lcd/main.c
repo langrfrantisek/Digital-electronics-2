@@ -95,6 +95,8 @@ ISR(TIMER2_OVF_vect)
     static uint8_t number_of_overflows = 0;
     static uint8_t tens = 0;        // Tenths of a second
     static uint8_t secs = 0;        // Seconds
+    static uint8_t mins = 0;        // Minutes
+    static uint16_t secs_square = 0;
     char lcd_string[2] = "  ";      // String for converting numbers by itoa()
 
     number_of_overflows++;
@@ -113,8 +115,20 @@ ISR(TIMER2_OVF_vect)
             if (secs > 59)
             {
                 secs = 0;
+                
+                //reset stopwatch every minute to clear old values
                 lcd_gotoxy(1, 0);
                 lcd_puts("00:00.0");
+                
+                lcd_gotoxy(11, 0);
+                lcd_puts("    ");
+                
+                mins++;
+                
+                if (mins > 59)
+                {
+                    mins = 0;
+                }
             }
         }
         
@@ -123,6 +137,8 @@ ISR(TIMER2_OVF_vect)
         lcd_puts(lcd_string);
         
         itoa(secs, lcd_string, 10);
+        
+        //set seconds position
         if (secs < 10)
         {
             lcd_gotoxy(5, 0);
@@ -130,6 +146,24 @@ ISR(TIMER2_OVF_vect)
         {
             lcd_gotoxy(4, 0);
         }        
+        lcd_puts(lcd_string);
+        
+        itoa(mins, lcd_string, 10);
+        
+        //set minutes position
+        if (mins < 10)
+        {
+            lcd_gotoxy(2, 0);
+        } else
+        {
+            lcd_gotoxy(1, 0);
+        }
+        lcd_puts(lcd_string);
+        
+        //square value of the seconds at LCD position "a"
+        secs_square = secs*secs;
+        itoa(secs_square, lcd_string, 10);
+        lcd_gotoxy(11, 0);
         lcd_puts(lcd_string);
     }
 }
