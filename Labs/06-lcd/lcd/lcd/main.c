@@ -70,6 +70,11 @@ int main(void)
     // Set prescaler and enable overflow interrupt every 16 ms
     TIM0_overflow_16ms();
     TIM0_overflow_interrupt_enable();
+    
+    // Configure 16-bit Timer/Counter1 for running text
+    // Set prescaler and enable overflow interrupt every 1s
+    TIM1_overflow_262ms();
+    TIM1_overflow_interrupt_enable();
 
     // Enables interrupts by setting the global interrupt mask
     sei();
@@ -193,6 +198,32 @@ ISR(TIMER0_OVF_vect)
             lcd_gotoxy(1, 1);
             lcd_puts("          ");
         }
+    }        
+}
+/*--------------------------------------------------------------------*/
+/**
+ * ISR starts when Timer/Counter1 overflows. Display running text
+ */
+ISR(TIMER1_OVF_vect)
+{
+    static uint8_t number_of_overflows = 0;
+    static uint8_t position = 0;
+    char text[] = "    Hello, world!    ";
+    char letter;
+    
+    for (uint8_t i = 0; i <= 4; i++)
+    {
+        letter = text[i+number_of_overflows];
+        lcd_gotoxy(11 + position, 1);
+        lcd_putc(letter);
+        position++;
     }
-        
+    
+    number_of_overflows++;
+    if (number_of_overflows > sizeof(text)/sizeof(char)-5)
+    {
+        number_of_overflows = 0;
+    }
+    
+    position = 0;
 }
