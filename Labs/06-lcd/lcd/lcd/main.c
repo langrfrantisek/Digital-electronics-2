@@ -16,15 +16,19 @@
 #include "lcd.h"            // Peter Fleury's LCD library
 #include <stdlib.h>         // C library. Needed for conversion function
 
-uint8_t customChar[8] = {
-    0b00001,
-    0b11111,
-    0b10001,
-    0b11001,
-    0b00100,
-    0b00100,
-    0b00100,
-    0b00100
+uint8_t customChar[48] = {
+    // addr 0: .....
+    0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000,
+    // addr 1: |....
+    0b10000, 0b10000, 0b10000, 0b10000, 0b10000, 0b10000, 0b10000, 0b10000,
+    // addr 2: ||...
+    0b11000, 0b11000, 0b11000, 0b11000, 0b11000, 0b11000, 0b11000, 0b11000, 
+    // addr 3: |||..
+    0b11100, 0b11100, 0b11100, 0b11100, 0b11100, 0b11100, 0b11100, 0b11100,
+    // addr 4: ||||.
+    0b11110, 0b11110, 0b11110, 0b11110, 0b11110, 0b11110, 0b11110, 0b11110, 
+    // addr 5: |||||
+    0b11111, 0b11111, 0b11111, 0b11111, 0b11111, 0b11111, 0b11111, 0b11111
 };
 
 /* Function definitions ----------------------------------------------*/
@@ -37,23 +41,15 @@ int main(void)
     // Initialize LCD display
     lcd_init(LCD_DISP_ON);
     
-    // Initialize LCD display
-    lcd_init(LCD_DISP_ON);
-
     // Set pointer to beginning of CGRAM memory
     lcd_command(1 << LCD_CGRAM);
-    for (uint8_t i = 0; i < 8; i++)
+    for (uint8_t i = 0; i < 8*6; i++)
     {
         // Store all new chars to memory line by line
         lcd_data(customChar[i]);
     }
     // Set DDRAM address
-    lcd_command(1 << LCD_DDRAM);
-    
-    // Display first custom character
-    // Put string(s) at LCD display
-    lcd_gotoxy(15, 0);
-    lcd_putc(0);
+    lcd_command(1 << LCD_DDRAM);        
 
     // Put string(s) at LCD display
     lcd_gotoxy(1, 0);
@@ -69,6 +65,11 @@ int main(void)
     // Set prescaler and enable overflow interrupt every 16 ms
     TIM2_overflow_16ms();
     TIM2_overflow_interrupt_enable();
+    
+    // Configure 8-bit Timer/Counter0 for Stopwatch bar
+    // Set prescaler and enable overflow interrupt every 16 ms
+    TIM0_overflow_16ms();
+    TIM0_overflow_interrupt_enable();
 
     // Enables interrupts by setting the global interrupt mask
     sei();
@@ -166,4 +167,32 @@ ISR(TIMER2_OVF_vect)
         lcd_gotoxy(11, 0);
         lcd_puts(lcd_string);
     }
+}
+/*--------------------------------------------------------------------*/
+/**
+ * ISR starts when Timer/Counter0 overflows. Update the progress bar on
+ * LCD display every 16 ms.
+ */
+ISR(TIMER0_OVF_vect)
+{
+    static uint8_t symbol = 0;
+    static uint8_t position = 0;
+
+    lcd_gotoxy(1 + position, 1);
+    lcd_putc(symbol);
+    
+    symbol++;
+    if (symbol > 5)
+    {
+        symbol = 0;
+        position++;
+            
+        if (position > 9)
+        {
+            position = 0;
+            lcd_gotoxy(1, 1);
+            lcd_puts("          ");
+        }
+    }
+        
 }
