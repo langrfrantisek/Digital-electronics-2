@@ -32,11 +32,7 @@ int main(void)
 {
     // Initialize LCD display
     lcd_init(LCD_DISP_ON);
-    lcd_gotoxy(1, 0); lcd_puts("value:");
-    lcd_gotoxy(3, 1); lcd_puts("key:");
-    lcd_gotoxy(8, 0); lcd_puts("a");    // Put ADC value in decimal
-    lcd_gotoxy(13,0); lcd_puts("b");    // Put ADC value in hexadecimal
-    lcd_gotoxy(8, 1); lcd_puts("c");    // Put button name here
+    lcd_gotoxy(1, 0); lcd_puts("val:");   
 
     // Configure ADC to convert PC0[A0] analog value
     // Set ADC reference to AVcc
@@ -101,55 +97,50 @@ ISR(TIMER1_OVF_vect)
 ISR(ADC_vect)
 {
     uint16_t value = ADC;    // Copy ADC result to 16-bit variable
-    char lcd_string[8] = "        ";
+    char lcd_string[10] = "          ";
+    char one[1] = "1";
+    uint8_t num_of_ones = 0;
 
-    //Clear decimal and hex positions
-    lcd_gotoxy(8, 0);
+    //Clear positions
+    lcd_gotoxy(6, 0);
     lcd_puts(lcd_string);
 
-    //Print ADC value on LED in decimal
-    itoa(value, lcd_string, 10);    // Convert to string in decimal
-    lcd_gotoxy(8, 0);
+    //Print ADC value on LED in binary
+    itoa(value, lcd_string, 2);    // Convert to string in binary
+    lcd_gotoxy(6, 0);
     lcd_puts(lcd_string);
     
     //send data through UART
-    uart_puts("ADC value in decimals: ");
+    uart_puts("ADC value in binary: ");
     uart_puts(lcd_string);
     uart_puts("\r\n");
+        
+    //Clear parity positions
+    lcd_gotoxy(1, 1);
+    lcd_puts("               ");
     
-    //Print ADC value on LED in hex
-    itoa(value, lcd_string, 16);    // Convert to string in hex
-    lcd_gotoxy(13, 0);
-    lcd_puts(lcd_string);
+    //calculate number of ones in lcd_string
+    for (uint8_t i = 0; i < sizeof(lcd_string)/sizeof(char); i++)
+    {
+        if (lcd_string[i] == one[0])
+        {
+            num_of_ones++;
+        }
+    }
     
-    //Clear key positions
-    lcd_gotoxy(8, 1);
-    lcd_puts("      ");
-    lcd_gotoxy(8, 1);
+    //set parity position
+    lcd_gotoxy(1, 1);
     
-    //Print key
-    if (value > 1016)
-    {
-        lcd_puts("None");
+    //calculate parity 
+    if (num_of_ones % 2 == 0)
+    {        
+         lcd_puts("even: 0 odd: 1");    //display parity on lcd  
+         uart_puts("even: 0 odd: 1");   //send data through UART   
     }
-    else if (value < 5)
+    else 
     {
-        lcd_puts("Right");
+         lcd_puts("even: 1 odd: 0");    //display parity on lcd
+         uart_puts("even: 1 odd: 0");   //send data through UART
     }
-    else if (value > 95 && value < 105)
-    {
-        lcd_puts("Up");
-    }
-    else if (value > 240 && value < 250)
-    {
-        lcd_puts("Down");
-    }
-    else if (value > 397 && value < 407)
-    {
-        lcd_puts("Left");
-    }
-    else if (value > 645 && value < 655)
-    {
-        lcd_puts("Select");
-    }
+    uart_puts("\r\n");
 }
