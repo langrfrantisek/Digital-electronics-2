@@ -118,7 +118,7 @@ ISR(ADC_vect)
     uart_puts("\r\n");
     
     //Print ADC value on LED in hex
-    itoa(value, lcd_string, 16);    // Convert to string in decimal
+    itoa(value, lcd_string, 16);    // Convert to string in hex
     lcd_gotoxy(13, 0);
     lcd_puts(lcd_string);
     
@@ -132,6 +132,24 @@ ISR(ADC_vect)
     {
         lcd_puts("None");
     }
-    
-
+    else if (value < 5)
+    {
+        lcd_puts("Right");
+    }
+    else if (value > 95 && value < 105)
+    {
+        lcd_puts("Up");
+    }
+    else if (value > 240 && value < 250)
+    {
+        lcd_puts("Down");
+    }
+    else if (value > 397 && value < 407)
+    {
+        lcd_puts("Left");
+    }
+    else if (value > 645 && value < 655)
+    {
+        lcd_puts("Select");
+    }
 }
