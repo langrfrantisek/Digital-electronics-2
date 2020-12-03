@@ -3,7 +3,7 @@
 
 /* Arduino Uno LCD Keypad Shield */
 #define LCD_PORT        PORTC
-#define LCD_DATA0_PIN   PC0
+#define LCD_DATA0_PIN   PC4
 #define LCD_DATA1_PIN   PC1
 #define LCD_DATA2_PIN   PC2
 #define LCD_DATA3_PIN   PC3
