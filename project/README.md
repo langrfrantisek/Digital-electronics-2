@@ -1,25 +1,25 @@
 # Generátor signálů s využitím R-2R DAC
 
-### Project objectives
+### Cíle projektu
 
 *Write your text here*
 
 
-## Hardware description
+## Popis harwaru
 
 *Write your text here*
 
 
-## Code description and simulations
+## Popis kódu a simulace
+
+[main.c](https://github.com/langrfrantisek/Digital-electronics-2/blob/master/project/DAC/DAC/main.c)
+
+
+## Video/animace
 
 *Write your text here*
 
 
-## Video/Animation
-
-*Write your text here*
-
-
-## References
+## Reference
 
 *Write your text here*
