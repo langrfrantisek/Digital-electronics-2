@@ -28,6 +28,19 @@
 #define F_CPU 16000000      // CPU frequency in Hz required for delay func
 #endif
 
+uint8_t btn_pressed = 13;   //remember last pressed button, 13 by default means none of the 4x3 keyboard buttons
+
+uint8_t customChar[32] = {
+    // sine 
+    0b00000, 0b01000, 0b10100, 0b10100, 0b00101, 0b00101, 0b00010, 0b00000,
+    // rectangle
+    0b00000, 0b00000, 0b01110, 0b01010, 0b01010, 0b11011, 0b00000, 0b00000,
+    // triangle
+    0b00000, 0b00000, 0b00100, 0b01010, 0b10001, 0b00000, 0b00000, 0b00000,
+    // ramp
+    0b00000, 0b00001, 0b00011, 0b00101, 0b01001, 0b10001, 0b00000, 0b00000
+};
+
 /* ripped from http://aquaticus.info/pwm-sine-wave */
 
 const uint8_t  sine_wave[256] = {
@@ -79,8 +92,30 @@ int main(void)
     
     // Initialize LCD display
     lcd_init(LCD_DISP_ON);
+    
+    // Set pointer to beginning of CGRAM memory
+    lcd_command(1 << LCD_CGRAM);
+    for (uint8_t i = 0; i < 8*4; i++)
+    {
+        // Store all new chars to memory line by line
+        lcd_data(customChar[i]);
+    }
+    // Set DDRAM address
+    lcd_command(1 << LCD_DDRAM);
+    
+    //Put signal options at LCD display
     lcd_gotoxy(1, 0); 
-    lcd_puts("val:");
+    lcd_puts("Choose signal:");
+    lcd_gotoxy(1, 1); 
+    lcd_puts("1");
+    lcd_putc(0);
+    lcd_puts("  2");
+    lcd_putc(1);
+    lcd_puts("  3");
+    lcd_putc(2);
+    lcd_puts("  4");
+    lcd_putc(3);
+    
     
     // Configure ADC to convert PC0[A0] analog value
     // Set ADC reference to AVcc
@@ -111,7 +146,7 @@ int main(void)
     TIM0_overflow_interrupt_enable();
     
     /* Configuration of 8-bit Timer/Counter1 */
-    TIM1_overflow_262ms();
+    TIM1_overflow_33ms();
     TIM1_overflow_interrupt_enable();
     
     // Initialize UART to asynchronous, 8N1, 9600
@@ -142,42 +177,54 @@ ISR(TIMER0_OVF_vect)
     PORTB = (value & 0b00000011) << 2;
      
     
-    //sine
-    value = sine_wave[lookup_number];
-    lookup_number++;
+    //Sine function
+    if (btn_pressed == 1)
+    {
+        value = sine_wave[lookup_number];
+        lookup_number++;
+    }
     
-    //Triangle function    
-    /*if (number_of_overflows < 256)
-    {        
+    //Square function
+    if (btn_pressed == 2)
+    {
+        if (number_of_overflows < 2)
+        {
+            value = 0b11111111;
+        }
+        else if (number_of_overflows < 4)
+        {
+            value = 0;
+        }
+        else
+        {
+            number_of_overflows = 0;
+        }
+    }
+    
+    //Triangle function
+    if (btn_pressed == 3)
+    {
+        if (number_of_overflows < 256)
+        {        
         value++;
-    } 
-    else if (number_of_overflows < 511)
-    {
-        value--;
+        } 
+        else if (number_of_overflows < 511)
+        {
+            value--;
+        }
+        else 
+        {
+            number_of_overflows = 0;
+            //value = 0;
+        }
     }
-    else 
+      
+    //Ramp function    
+    if (btn_pressed == 4)
     {
-        number_of_overflows = 0;
-        //value = 0;
-    }*/
-    
-    //Ramp function
-    //value++;
-    
-    //square function
-    /*if (number_of_overflows < 2)
-    {
-        value = 0b11111111;
+        value++;
     }
-    else if (number_of_overflows < 4)
-    {
-        value = 0;
-    }
-    else
-    {
-        number_of_overflows = 0;
-    }*/
-       
+            
     number_of_overflows++;
     
     //Writing UART and LCD 
@@ -209,74 +256,91 @@ ISR(ADC_vect)
     char lcd_string[10] = "          ";
 
     //Clear positions
-    lcd_gotoxy(6, 0);
-    lcd_puts(lcd_string);
-    lcd_gotoxy(1, 1);
-    lcd_puts(lcd_string);
-
-    //Print ADC value on LED 
-    itoa(value, lcd_string, 10);    // Convert to string
-    lcd_gotoxy(6, 0);
-    lcd_puts(lcd_string);
+    //lcd_gotoxy(1, 1);
+    //lcd_puts(lcd_string);
 
     //send data through UART
+    itoa(value, lcd_string, 10);    // Convert to string
     uart_puts("ADC value: ");
     uart_puts(lcd_string);
     uart_puts("\r\n");
     
-    //Print key
-    lcd_gotoxy(1, 1);
+    //key
+    if (value < 1017)
+    {
+        lcd_gotoxy(0, 0);
+        lcd_puts("Pressed:       ");
+    }
+    
+    lcd_gotoxy(9, 0);
+    
     if (value > 1017)
     {
-        lcd_puts("None");
+        //nothing pressed
     }
     else if (value < 5)
     {
         lcd_putc('1');
+        lcd_putc(0);
+        btn_pressed = 1;
     }
     else if (value > 97 && value < 107)
     {
         lcd_putc('2');
+        lcd_putc(1);
+        btn_pressed = 2;
     }
     else if (value > 180 && value < 190)
     {
         lcd_putc('3');
+        lcd_putc(2);
+        btn_pressed = 3;
     }
     else if (value > 250 && value < 260)
     {
         lcd_putc('4');
+        lcd_putc(3);
+        btn_pressed = 4;
     }
     else if (value > 309 && value < 319)
     {
         lcd_putc('5');
+        btn_pressed = 5;
     }
     else if (value > 360 && value < 370)
     {
         lcd_putc('6');
+        btn_pressed = 6;
     }
     else if (value > 404 && value < 414)
     {
         lcd_putc('7');
+        btn_pressed = 7;
     }
     else if (value > 442 && value < 452)
     {
         lcd_putc('8');
+        btn_pressed = 8;
     }
     else if (value > 476 && value < 486)
     {
         lcd_putc('9');
+        btn_pressed = 9;
     }
     else if (value > 506 && value < 516)
     {
         lcd_putc('*');
+        btn_pressed = 10;
     }
     else if (value > 533 && value < 543)
     {
         lcd_putc('0');
+        btn_pressed = 11;
     }
     else if (value > 557 && value < 567)
     {
         lcd_putc('#');
+        btn_pressed = 12;
     }
     
 }

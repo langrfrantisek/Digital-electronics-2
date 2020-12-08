@@ -1,5 +1,8 @@
 <circuit type="simulide_0.4" animate="0" reactStep="50" noLinAcc="5" speed="1000000">
  
+Probe-203: 
+<item Threshold="2.5" vflip="1" objectName="Probe-203" id="Probe-203" labelx="16" valLabelx="16" hflip="1" Show_id="false" x="-184" itemtype="Probe" valLabRot="45" rotation="-45" Show_volt="true" labelrot="45" y="-492" valLabely="0" PlotterCh="1" labely="-16"/>
+ 
 TextComponent-202: 
 <item vflip="1" objectName="TextComponent-202" id="TextComponent-202" Text="... TEXT ..." labelx="-16" valLabelx="0" Fixed_Width="false" hflip="1" Show_id="false" x="-316" itemtype="TextComponent" Opacity="1" Border="1" valLabRot="0" rotation="0" Margin="5" labelrot="0" y="-732" Font="Helvetica [Cronyx]" Font_Size="10" valLabely="0" labely="-24"/>
  
@@ -44,9 +47,6 @@ Fixed Voltage-39:
  
 KeyPad-38: 
 <item Cols="3" vflip="1" objectName="KeyPad-38" id="KeyPad-112" labelx="-8" valLabelx="0" hflip="1" Key_Labels="123456789*0#" Show_id="false" x="-668" itemtype="KeyPad" valLabRot="0" Rows="4" rotation="0" labelrot="0" y="-600" valLabely="0" labely="-16"/>
- 
-Probe-37: 
-<item Threshold="2.5" vflip="1" objectName="Probe-37" id="Probe-76" labelx="16" valLabelx="16" hflip="1" Show_id="false" x="-384" itemtype="Probe" valLabRot="45" rotation="-45" Show_volt="true" labelrot="45" y="-612" valLabely="0" PlotterCh="1" labely="-16"/>
  
 Ground-36: 
 <item labelrot="0" hflip="1" id="Ground-66" objectName="Ground-36" labely="8" valLabelx="0" Show_id="false" y="-360" valLabRot="0" x="-128" rotation="0" itemtype="Ground" valLabely="0" labelx="-16" vflip="1"/>
@@ -152,6 +152,9 @@ Node-2:
  
 Probe-1: 
 <item Threshold="2.5" vflip="1" objectName="Probe-1" id="Probe-155" labelx="16" valLabelx="16" hflip="1" Show_id="false" x="-568" itemtype="Probe" valLabRot="45" rotation="-45" Show_volt="true" labelrot="45" y="-608" valLabely="0" PlotterCh="0" labely="-16"/>
+ 
+SerialTerm-209: 
+<item vflip="1" objectName="SerialTerm-209" id="SerialTerm-209" posx="2531" labelx="-16" valLabelx="0" sizey="244" hflip="1" Show_id="false" x="-392" itemtype="SerialTerm" valLabRot="0" rotation="0" posy="307" labelrot="0" y="-580" valLabely="0" Mcu_Uart="1" sizex="516" labely="-24"/>
  
 Connector-48: 
 <item vflip="1" endpinid="Ground-27-Gnd" objectName="Connector-48" id="Connector-31" labelx="-16" valLabelx="0" pointList="-232,-12,-232,16" hflip="1" Show_id="false" enodeid="Circ_eNode-49" x="-232" itemtype="Connector" valLabRot="0" rotation="0" labelrot="0" y="-12" valLabely="0" startpinid="Resistor-26-lPin" labely="-24"/>
@@ -343,6 +346,6 @@ Connector-52:
 <item vflip="1" endpinid="Node-199-0" objectName="Connector-52" id="Connector-52" labelx="-16" valLabelx="0" pointList="-232,-436,-232,-448,-240,-448" hflip="1" Show_id="false" enodeid="enode-52" x="-232" itemtype="Connector" valLabRot="0" rotation="0" labelrot="0" y="-436" valLabely="0" startpinid="Resistor-25-rPin" labely="-24"/>
  
 PlotterWidget-142: 
-<item windowModified="false" styleSheet="" childrenRect="" cursor="" windowIconText="" modal="false" updatesEnabled="true" windowOpacity="1" rect="" windowTitle="" MinVolt="0" minimumWidth="200" objectName="PlotterWidget-142" minimized="false" toolTipDuration="-1" geometry="" minimumHeight="200" size="" sizeHint="" itemtype="Plotter" acceptDrops="false" windowFilePath="" enabled="true" minimumSizeHint="" MaxVolt="500" maximized="false" accessibleName="" baseSize="" sizeIncrement="" inputMethodHints="0" pos="" toolTip="" accessibleDescription="" Scale="1" x="0" windowIcon="" width="957" statusTip="" locale="" childrenRegion="" whatsThis="" Tracks="1" minimumSize="" mouseTracking="false" maximumSize="" windowModality="0" normalGeometry="" y="631" contextMenuPolicy="1" sizePolicy="" font="MS Shell Dlg 2,7.8,-1,5,50,0,0,0,0,0" visible="true" frameGeometry="" layoutDirection="0" palette="" fullScreen="false" frameSize="" maximumHeight="200" focusPolicy="0" isActiveWindow="true" focus="false" maximumWidth="1000" height="200" autoFillBackground="false"/>
+<item windowModified="false" styleSheet="" childrenRect="" cursor="" windowIconText="" modal="false" updatesEnabled="true" windowOpacity="1" rect="" windowTitle="" MinVolt="0" minimumWidth="200" objectName="PlotterWidget-142" minimized="false" toolTipDuration="-1" geometry="" minimumHeight="200" size="" sizeHint="" itemtype="Plotter" acceptDrops="false" windowFilePath="" enabled="true" minimumSizeHint="" MaxVolt="500" maximized="false" accessibleName="" baseSize="" sizeIncrement="" inputMethodHints="0" pos="" toolTip="" accessibleDescription="" Scale="1" x="0" windowIcon="" width="957" statusTip="" locale="" childrenRegion="" whatsThis="" Tracks="1" minimumSize="" mouseTracking="false" maximumSize="" windowModality="0" normalGeometry="" y="631" contextMenuPolicy="1" sizePolicy="" font="MS Shell Dlg 2,7.8,-1,5,50,0,0,0,0,0" visible="true" frameGeometry="" layoutDirection="0" palette="" fullScreen="false" frameSize="" maximumHeight="200" focusPolicy="0" isActiveWindow="false" focus="false" maximumWidth="1000" height="200" autoFillBackground="false"/>
  
 </circuit>
