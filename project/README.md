@@ -1,4 +1,4 @@
-# Your project title
+# Generátor signálů s využitím R-2R DAC
 
 ### Project objectives
 
