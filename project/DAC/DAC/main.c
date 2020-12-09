@@ -28,7 +28,8 @@
 #define F_CPU 16000000      // CPU frequency in Hz required for delay func
 #endif
 
-uint8_t btn_pressed = 13;   //remember last pressed button, 13 by default means none of the 4x3 keyboard buttons
+volatile uint8_t btn_pressed = 13;   //remember last pressed button, 13 by default means none of the 4x3 keyboard buttons
+uint16_t ADC_value = 0;
 
 uint8_t customChar[32] = {
     // sine 
@@ -132,7 +133,7 @@ int main(void)
     ADCSRA |= (1 << ADEN);
     
     // Enable conversion complete interrupt
-    ADCSRA |= (1 << ADIE);
+    //ADCSRA |= (1 << ADIE);
     
     // Set clock prescaler to 128
     ADCSRA |= (1 << ADPS2);
@@ -141,13 +142,13 @@ int main(void)
     
     
     
-    /* Configuration of 8-bit Timer/Counter0 */
+    /* Configuration of Timer/Counter0 */
     TIM0_overflow_16us();
     TIM0_overflow_interrupt_enable();
     
-    /* Configuration of 8-bit Timer/Counter1 */
-    TIM1_overflow_33ms();
-    TIM1_overflow_interrupt_enable();
+    /* Configuration of Timer/Counter1 */
+    //TIM1_overflow_33ms();
+    //TIM1_overflow_interrupt_enable();
     
     // Initialize UART to asynchronous, 8N1, 9600
     uart_init(UART_BAUD_SELECT(9600, F_CPU));
@@ -158,7 +159,34 @@ int main(void)
     while (1) 
     {
         /* Empty loop. All subsequent operations are performed exclusively 
-         * inside interrupt service routines ISRs */             
+         * inside interrupt service routines ISRs */ 
+        
+        
+        /*if (ADSC == 0)
+        {
+            value = ADC;
+            
+            if (value > 1017)
+            {
+                //nothing pressed
+            }
+            else if (value < 5)
+            {
+                btn_pressed = 1;
+            }
+            else if (value > 97 && value < 107)
+            {
+                btn_pressed = 2;
+            }
+            else if (value > 180 && value < 190)
+            {
+                btn_pressed = 3;
+            }
+            else if (value > 250 && value < 260)
+            {
+                btn_pressed = 4;
+            }
+        }*/
     }
     
     // Will never reach this
@@ -171,11 +199,31 @@ ISR(TIMER0_OVF_vect)
 	static int16_t number_of_overflows = 0;
     static uint8_t value = 0;
     static uint8_t lookup_number = 0;
+    btn_pressed = 1;
+    
+    ADCSRA |= (1 << ADSC);
+    ADC_value = ADC;
     
     //Writing values to pins, where is the R-2R connected
     PORTD = value & 0b11111100;
     PORTB = (value & 0b00000011) << 2;
      
+    /*if (ADC_value < 5)
+    {
+        btn_pressed = 1;
+    }
+    else if (ADC_value > 97 && ADC_value < 107)
+    {
+        btn_pressed = 2;
+    }
+    else if (ADC_value > 180 && ADC_value < 190)
+    {
+        btn_pressed = 3;
+    }
+    else if (ADC_value > 250 && ADC_value < 260)
+    {
+        btn_pressed = 4;
+    }*/
     
     //Sine function
     if (btn_pressed == 1)
@@ -225,39 +273,53 @@ ISR(TIMER0_OVF_vect)
         value++;
     }
             
-    number_of_overflows++;
+    number_of_overflows++;   
     
-    //Writing UART and LCD 
-    if (number_of_overflows == 1000)
-    {
-        /*itoa(value, value_string, 10);
-        lcd_gotoxy(1, 1);
-        lcd_puts(value_string);*/
-        
-        /*uart_puts(value_string);
-        uart_puts("\r\n");*/
-   
-    }  
 }
 /* -------------------------------------------------------------------*/
-ISR(TIMER1_OVF_vect)
+/*ISR(TIMER1_OVF_vect)
 {
     // Start ADC conversion
-    ADCSRA |= (1 << ADSC);
-}
+    //ADCSRA |= (1 << ADSC);
+    
+    //Sine function
+    /*if (btn_pressed == 1)
+    {
+        lcd_putc('1');
+        lcd_putc(0);
+    }
+    
+    //Square function
+    if (btn_pressed == 2)
+    {
+        lcd_putc('2');
+        lcd_putc(1);
+    }
+    
+    //Triangle function
+    if (btn_pressed == 3)
+    {
+        lcd_putc('3');
+        lcd_putc(2);
+    }
+    
+    //Ramp function
+    if (btn_pressed == 4)
+    {
+        lcd_putc('4');
+        lcd_putc(3);
+    } 
+}*/
 /* -------------------------------------------------------------------*/
 /**
  * ISR starts when ADC completes the conversion. Display value on LCD
  * and send it to UART.
  */
-ISR(ADC_vect)
+
+/*ISR(ADC_vect)
 {
     uint16_t value = ADC;    // Copy ADC result to 16-bit variable
-    char lcd_string[10] = "          ";
-
-    //Clear positions
-    //lcd_gotoxy(1, 1);
-    //lcd_puts(lcd_string);
+    //char lcd_string[10] = "          ";
 
     //send data through UART
     itoa(value, lcd_string, 10);    // Convert to string
@@ -284,19 +346,19 @@ ISR(ADC_vect)
         lcd_putc(0);
         btn_pressed = 1;
     }
-    else if (value > 97 && value < 107)
+    else if (value == 102) //(value > 97 && value < 107)
     {
         lcd_putc('2');
         lcd_putc(1);
         btn_pressed = 2;
     }
-    else if (value > 180 && value < 190)
+    else if (value == 185) //(value > 180 && value < 190)
     {
         lcd_putc('3');
         lcd_putc(2);
         btn_pressed = 3;
     }
-    else if (value > 250 && value < 260)
+    else if (value == 255) //(value > 250 && value < 260)
     {
         lcd_putc('4');
         lcd_putc(3);
@@ -304,43 +366,43 @@ ISR(ADC_vect)
     }
     else if (value > 309 && value < 319)
     {
-        lcd_putc('5');
+        //lcd_putc('5');
         btn_pressed = 5;
     }
     else if (value > 360 && value < 370)
     {
-        lcd_putc('6');
+        //lcd_putc('6');
         btn_pressed = 6;
     }
     else if (value > 404 && value < 414)
     {
-        lcd_putc('7');
+        //lcd_putc('7');
         btn_pressed = 7;
     }
     else if (value > 442 && value < 452)
     {
-        lcd_putc('8');
+        //lcd_putc('8');
         btn_pressed = 8;
     }
     else if (value > 476 && value < 486)
     {
-        lcd_putc('9');
+        //lcd_putc('9');
         btn_pressed = 9;
     }
     else if (value > 506 && value < 516)
     {
-        lcd_putc('*');
+        //lcd_putc('*');
         btn_pressed = 10;
     }
     else if (value > 533 && value < 543)
     {
-        lcd_putc('0');
+        //lcd_putc('0');
         btn_pressed = 11;
     }
     else if (value > 557 && value < 567)
     {
-        lcd_putc('#');
+        //lcd_putc('#');
         btn_pressed = 12;
     }
     
-}
+}*/
