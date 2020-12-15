@@ -8,7 +8,8 @@ Cílem projektu je vytvořit digitálně analogový převodník za použití R-2
 ## Popis harwaru
 
 Použitý mikrokontrolér ATmega328P řídí celý generátor. Maticová klávesnice 4x3 je připojena přes dělič jedním vodičem na ADC vstupní pin PC0. Hodnoty rezistorů v děliči byly vypočítány tak, aby byl rozdíl napětí po stisku sousedních tlačítek co největší. LCD je připojeno čtyřmi datovými vodiči. R-2R leadder je připojený částečně přes PORTD a částečně přes PORTB.
-circuit diagram
+
+![schematic](https://user-images.githubusercontent.com/71698018/102280153-e51e2100-3f2c-11eb-9f09-7c88580527f8.PNG)
 
 ## Popis kódu a simulace
 
