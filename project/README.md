@@ -12,7 +12,7 @@ circuit diagram
 
 ## Popis kódu a simulace
 
-![alt text](https://github.com/langrfrantisek/Digital-electronics-2/blob/master/project/diagram.pdf)
+![diagram](https://user-images.githubusercontent.com/71698018/102279864-6b863300-3f2c-11eb-9747-47fd06339c5d.png)
 
 [main.c](https://github.com/langrfrantisek/Digital-electronics-2/blob/master/project/DAC/DAC/main.c)
 
