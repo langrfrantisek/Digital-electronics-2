@@ -15,6 +15,10 @@
 #define pin6 PD6
 #define pin7 PD7
 
+#ifndef F_CPU
+#define F_CPU 16000000      // CPU frequency in Hz required for delay func
+#endif
+
 /* Includes ----------------------------------------------------------*/
 #include <avr/io.h>         // AVR device-specific IO definitions
 #include <avr/interrupt.h>  // Interrupts standard C library for AVR-GCC
@@ -23,10 +27,11 @@
 #include "lcd.h"            // Peter Fleury's LCD library
 #include <stdlib.h>         // C library. Needed for conversion function
 #include "uart.h"           // Peter Fleury's UART library
+#include <util/delay.h>
 
-#ifndef F_CPU
-#define F_CPU 16000000      // CPU frequency in Hz required for delay func
-#endif
+
+
+volatile uint16_t ADC_value = 1000;
 
 uint8_t customChar[32] = {
     // sine 
@@ -144,7 +149,7 @@ int main(void)
     TIM0_overflow_interrupt_enable();
     
     /* Configuration of Timer/Counter1 */
-    //TIM1_overflow_33ms();
+    //TIM1_overflow_262ms();
     //TIM1_overflow_interrupt_enable();
     
     // Initialize UART to asynchronous, 8N1, 9600
@@ -157,6 +162,31 @@ int main(void)
     {
         /* Empty loop. All subsequent operations are performed exclusively 
          * inside interrupt service routines ISRs */ 
+        /*ADCSRA |= (1 << ADSC);
+        //_delay_ms(300);
+        uart_puts("hoj");
+        uart_puts("\r\n");
+        
+        if ((ADCSRA &(1 << ADSC)) == 0)
+        {
+            ADC_value = ADC;
+            
+            char data[10];
+            static uint16_t ADC_value_next = 0;
+            
+            
+            if (ADC_value != ADC_value_next)
+            {
+                ADC_value_next = ADC_value;
+                //send data through UART
+                itoa(ADC_value_next, data, 10);
+                uart_puts(data);
+                //uart_puts(lcd_string);
+                uart_puts("\r\n");
+            }
+            
+            
+        }*/
     }
     
     // Will never reach this
@@ -169,18 +199,19 @@ ISR(TIMER0_OVF_vect)
 	static int16_t number_of_overflows = 0;
     static uint8_t value = 0;
     static uint8_t lookup_number = 0;
-    static uint16_t ADC_value = 1000;
+    
     static uint8_t freq = 1;
     static uint8_t freq_next = 1;
     static uint8_t freq_control = 0;
     static uint8_t control = 0;
     static uint8_t btn_pressed = 11;   //remember last pressed button, 11 by default means 0 pressed
     static uint8_t btn_pressed_next = 11;
+    static uint16_t uart_counter = 0;
     char lcd_string[10] = "          ";
-    
+
     ADCSRA |= (1 << ADSC);
     ADC_value = ADC;
-    
+
     //Writing values to pins, where is the R-2R connected
     PORTD = value & 0b11111100;
     PORTB = (value & 0b00000011) << 2;
@@ -251,11 +282,11 @@ ISR(TIMER0_OVF_vect)
     //Square function
     if (btn_pressed == 2)
     {
-        if (number_of_overflows < 2)
+        if (number_of_overflows < 128)
         {
             value = 0b11111111;
         }
-        else if (number_of_overflows < 4)
+        else if (number_of_overflows < 256)
         {
             value = 0;
         }
@@ -268,13 +299,14 @@ ISR(TIMER0_OVF_vect)
     //Triangle function
     if (btn_pressed == 3)
     {
-        if (number_of_overflows < 256)
+        
+        if (number_of_overflows < 256 && value >= 0)
         {        
-            value++;
+            value += freq;
         } 
-        else if (number_of_overflows < 511)
+        else if (number_of_overflows < 511 && value > 0)
         {
-            value--;
+            value -= freq;
         }
         else 
         {
@@ -286,7 +318,7 @@ ISR(TIMER0_OVF_vect)
     //Ramp function    
     if (btn_pressed == 4)
     {
-        value++;
+        value += freq;
     }
     
     //*
@@ -336,49 +368,32 @@ ISR(TIMER0_OVF_vect)
         freq = freq_next;
         freq_control = 0;
     }
-          
-    number_of_overflows++;   
+     
+    if (uart_counter == 10)
+    {
+        //send data through UART
+        //itoa(btn_pressed, lcd_string, 10);    // Convert to string
+        //uart_putc('a');
+        //uart_puts(lcd_string);
+        //uart_puts("\r\n");
+        
+        uart_counter = 0;
+    }
+    uart_counter++; 
+         
+    number_of_overflows += freq;   
     
-    //send data through UART
-    /*itoa(btn_pressed, lcd_string, 10);    // Convert to string
-    uart_puts("btn: ");
-    uart_puts(lcd_string);
-    uart_puts("\r\n");*/
+    
+    
+    
+    
     
 }
 /* -------------------------------------------------------------------*/
 /*ISR(TIMER1_OVF_vect)
 {
-    // Start ADC conversion
-    //ADCSRA |= (1 << ADSC);
-    
-    //Sine function
-    /*if (btn_pressed == 1)
-    {
-        lcd_putc('1');
-        lcd_putc(0);
-    }
-    
-    //Square function
-    if (btn_pressed == 2)
-    {
-        lcd_putc('2');
-        lcd_putc(1);
-    }
-    
-    //Triangle function
-    if (btn_pressed == 3)
-    {
-        lcd_putc('3');
-        lcd_putc(2);
-    }
-    
-    //Ramp function
-    if (btn_pressed == 4)
-    {
-        lcd_putc('4');
-        lcd_putc(3);
-    } 
+   ADCSRA |= (1 << ADSC);
+   
 }*/
 /* -------------------------------------------------------------------*/
 /**
@@ -388,91 +403,22 @@ ISR(TIMER0_OVF_vect)
 
 /*ISR(ADC_vect)
 {
-    uint16_t value = ADC;    // Copy ADC result to 16-bit variable
-    //char lcd_string[10] = "          ";
+    ADC_value = ADC; 
+    
+    char data[10];
+    static uint16_t ADC_value_next = 0;
+    
+    
+    if (ADC_value != ADC_value_next)
+    {
+        ADC_value_next = ADC_value;
+        //send data through UART
+        itoa(ADC_value_next, data, 10);
+        uart_puts(data);
+        //uart_puts(lcd_string);
+        uart_puts("\r\n");
+    }
 
-    //send data through UART
-    itoa(value, lcd_string, 10);    // Convert to string
-    uart_puts("ADC value: ");
-    uart_puts(lcd_string);
-    uart_puts("\r\n");
     
-    //key
-    if (value < 1017)
-    {
-        lcd_gotoxy(0, 0);
-        lcd_puts("Pressed:       ");
-    }
-    
-    lcd_gotoxy(9, 0);
-    
-    if (value > 1017)
-    {
-        //nothing pressed
-    }
-    else if (value < 5)
-    {
-        lcd_putc('1');
-        lcd_putc(0);
-        btn_pressed = 1;
-    }
-    else if (value == 102) //(value > 97 && value < 107)
-    {
-        lcd_putc('2');
-        lcd_putc(1);
-        btn_pressed = 2;
-    }
-    else if (value == 185) //(value > 180 && value < 190)
-    {
-        lcd_putc('3');
-        lcd_putc(2);
-        btn_pressed = 3;
-    }
-    else if (value == 255) //(value > 250 && value < 260)
-    {
-        lcd_putc('4');
-        lcd_putc(3);
-        btn_pressed = 4;
-    }
-    else if (value > 309 && value < 319)
-    {
-        //lcd_putc('5');
-        btn_pressed = 5;
-    }
-    else if (value > 360 && value < 370)
-    {
-        //lcd_putc('6');
-        btn_pressed = 6;
-    }
-    else if (value > 404 && value < 414)
-    {
-        //lcd_putc('7');
-        btn_pressed = 7;
-    }
-    else if (value > 442 && value < 452)
-    {
-        //lcd_putc('8');
-        btn_pressed = 8;
-    }
-    else if (value > 476 && value < 486)
-    {
-        //lcd_putc('9');
-        btn_pressed = 9;
-    }
-    else if (value > 506 && value < 516)
-    {
-        //lcd_putc('*');
-        btn_pressed = 10;
-    }
-    else if (value > 533 && value < 543)
-    {
-        //lcd_putc('0');
-        btn_pressed = 11;
-    }
-    else if (value > 557 && value < 567)
-    {
-        //lcd_putc('#');
-        btn_pressed = 12;
-    }
     
 }*/
