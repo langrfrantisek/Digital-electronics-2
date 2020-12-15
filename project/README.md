@@ -24,7 +24,7 @@ Uživatel je po spuštění aplikace vyzván ke stisku tlačítka a na display s
 
 ## Video/animace
 
-*Write your text here*
+[video](https://drive.google.com/file/d/1Q5DAWgp-w9RkpAxS_AesRBgdQx01LGIt/view?usp=sharing)
 
 
 ## Reference
