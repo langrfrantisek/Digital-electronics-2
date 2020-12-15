@@ -1,9 +1,13 @@
-/*
- * DAC.c
+/***********************************************************************
+ * 
+ * Digital electronics 2 BUT
+ * Project application of analog signal generator using 8-bit R-2R DAC
+ * ATmega328P (Arduino Uno), 16 MHz, AVR 8-bit Toolchain 3.6.2
+ * 
+ * Frantisek Langr ID: 203514
+ * 15.12.2020
  *
- * Created: 26.11.2020 21:39:16
- * Author : Fraja
- */ 
+ **********************************************************************/ 
 
 /* Defines -----------------------------------------------------------*/
 #define pin0 PB2      
@@ -27,19 +31,11 @@
 #include "lcd.h"            // Peter Fleury's LCD library
 #include <stdlib.h>         // C library. Needed for conversion function
 #include "uart.h"           // Peter Fleury's UART library
-#include <util/delay.h>
 
+volatile uint8_t btn_pressed = 11;  // remember last pressed button, 11 by default means 0 pressed (output off)
+volatile uint8_t freq = 1;          // variable used for changing frequency, 1 by default means one step between values
 
-
-volatile uint16_t ADC_value = 1000;
-volatile uint8_t btn_pressed = 11;   //remember last pressed button, 11 by default means 0 pressed
-volatile uint8_t btn_pressed_next = 11;
-volatile uint8_t freq_control = 0;
-volatile uint8_t value = 0;
-volatile uint8_t freq = 1;
-volatile uint8_t freq_next = 1;
-volatile uint8_t control = 0;
-
+// custom characters definitions for LCD - function symbols
 uint8_t customChar[32] = {
     // sine 
     0b00000, 0b01000, 0b10100, 0b10100, 0b00101, 0b00101, 0b00010, 0b00000,
@@ -51,8 +47,7 @@ uint8_t customChar[32] = {
     0b00000, 0b00001, 0b00011, 0b00101, 0b01001, 0b10001, 0b00000, 0b00000
 };
 
-/* ripped from http://aquaticus.info/pwm-sine-wave */
-
+// look up table for sine wave from http://aquaticus.info/pwm-sine-wave 
 const uint8_t  sine_wave[256] = {
     0x80, 0x83, 0x86, 0x89, 0x8C, 0x90, 0x93, 0x96,
     0x99, 0x9C, 0x9F, 0xA2, 0xA5, 0xA8, 0xAB, 0xAE,
@@ -125,8 +120,7 @@ int main(void)
     lcd_putc(2);
     lcd_puts("  4");
     lcd_putc(3);
-    
-    
+   
     // Configure ADC to convert PC0[A0] analog value
     // Set ADC reference to AVcc
     ADMUX |= (1 << REFS0);
@@ -148,9 +142,7 @@ int main(void)
     ADCSRA |= (1 << ADPS2);
     ADCSRA |= (1 << ADPS1);
     ADCSRA |= (1 << ADPS0);
-    
-    
-    
+   
     /* Configuration of Timer/Counter0 */
     TIM0_overflow_16us();
     TIM0_overflow_interrupt_enable();
@@ -169,12 +161,6 @@ int main(void)
     {
         /* Empty loop. All subsequent operations are performed exclusively 
          * inside interrupt service routines ISRs */ 
-        
-        
-        //if ((ADCSRA &(1 << ADSC)) == 0)
-        //{
-            
-        //}
     }
     
     // Will never reach this
@@ -182,28 +168,34 @@ int main(void)
 }
 
 /* Interrupt service routine ----------------------------------------*/
+/**
+ * ISR calculate and write value to R2-R. 
+ */
 ISR(TIMER0_OVF_vect)
 {    
-	static int16_t number_of_overflows = 0;   
-    static uint8_t lookup_number = 0;
+	static int16_t number_of_overflows = 0;     // counting number of overflows 
+    static uint8_t lookup_number = 0;           // position in lookup table
+    static uint8_t value = 0;                   // this value is writen to R2-R
 
-    //Writing values to pins, where is the R-2R connected
+    // Writing values to pins, where the R-2R is connected
     PORTD = value & 0b11111100;
     PORTB = (value & 0b00000011) << 2;
   
-    //Sine function
+    // if 1 is pressed: Sine function
     if (btn_pressed == 1)
     {
+        // write samples of sine wave to value, freq defines step between samples
         value = sine_wave[lookup_number];
         lookup_number += freq;
     }
     
-    //Square function
+    // if 2 is pressed: Square function
     if (btn_pressed == 2)
     {
+        // first 128 cycles write log. 1 to output value, another 128 cycles write log. 0
         if (number_of_overflows < 128)
         {
-            value = 0b11111111;
+            value = 255;
         }
         else if (number_of_overflows < 256)
         {
@@ -211,14 +203,15 @@ ISR(TIMER0_OVF_vect)
         }
         else
         {
+            //after one period reset number of overflows
             number_of_overflows = 0;
         }
     }
     
-    //Triangle function
+    // if 3 is pressed: Triangle function
     if (btn_pressed == 3)
     {
-        
+        // first 256 cycles increase output value, another 256 cycles decrease output value, freq defines step between samples
         if (number_of_overflows < 256 && value >= 0)
         {        
             value += freq;
@@ -229,59 +222,75 @@ ISR(TIMER0_OVF_vect)
         }
         else 
         {
+            //after one period reset number of overflows
             number_of_overflows = 0;
             value = 0;
         }
     }
       
-    //Ramp function    
+    // if 4 is pressed: Ramp function    
     if (btn_pressed == 4)
     {
+        // first 256 cycles increase output value, after that value overflows, freq defines step between samples
         value += freq;
     }
-       
+    
+    // increase number of overflows with freq step   
     number_of_overflows += freq;   
   
 }
 /* -------------------------------------------------------------------*/
+/**
+ * ISR start ADC conversion. 
+ */
 ISR(TIMER1_OVF_vect)
 {
    ADCSRA |= (1 << ADSC);   
 }
 /* -------------------------------------------------------------------*/
 /**
- * ISR starts when ADC completes the conversion. Display value on LCD
- * and send it to UART.
+ * ISR starts when ADC completes the conversion. 
+ * ISR identify pressed button, write on UART and LCD
  */
 
 ISR(ADC_vect)
 {
-    static uint16_t f_Hz = 244;
-    static uint16_t triangle_f_Hz = 121;
+    static uint16_t ADC_value = 0;          // variable for ADC value
+    static uint8_t btn_pressed_next = 11;   // used when freq is changed
+    static uint8_t freq_control = 0;        // make sure that freq is changed only once per button press 
+    static uint8_t freq_next = 1;           // make sure that freq is changed only once per button press 
+    static uint8_t control = 0;             // write menu when button is pressed
+    static uint16_t f_Hz = 0;               // frequency in Hz
+    static uint16_t ADC_value_previous = 0; // previous ADC value
+    char data[10];                          // data string for UART
+    
+    // write ADC value to ADC_value
     ADC_value = ADC;
-
-    char data[10];
-    static uint16_t ADC_value_next = 0;
-
-    if (ADC_value != ADC_value_next)
+    
+    // only when ADC_value is changed != previous value
+    if (ADC_value != ADC_value_previous)
     {
-        ADC_value_next = ADC_value;
+        // change previous ADC value to new one
+        ADC_value_previous = ADC_value;
         
-        
-        
+        // ADC value < 5 means button 1 pressed
         if (ADC_value < 5)
         {
             btn_pressed = 1;
-            lcd_gotoxy(8, 0);
-            lcd_putc('1');
-            lcd_putc(0);
-            uart_puts("Sine");
+            // calculate frequency
             if (btn_pressed == 3) f_Hz = (((1)/(16e-6))/(258))/2;
             else f_Hz = ((1)/(16e-6))/(256);
+            // Convert to string in decimal
             itoa(f_Hz*freq, data, 10);
+            // write on UART
+            uart_puts("Sine");
             uart_puts(" f = ");
             uart_puts(data);
             uart_puts(" Hz");
+            // write on LCD
+            lcd_gotoxy(8, 0);
+            lcd_putc('1');
+            lcd_putc(0);
             lcd_gotoxy(10, 1);
             lcd_puts("    ");
             lcd_gotoxy(10, 1);
@@ -290,16 +299,20 @@ ISR(ADC_vect)
         else if (ADC_value > 97 && ADC_value < 107)
         {
             btn_pressed = 2;
-            lcd_gotoxy(8, 0);
-            lcd_putc('2');
-            lcd_putc(1);
-            uart_puts("Square");
+            // calculate frequency
             if (btn_pressed == 3) f_Hz = (((1)/(16e-6))/(258))/2;
             else f_Hz = ((1)/(16e-6))/(256);
+            // Convert to string in decimal
             itoa(f_Hz*freq, data, 10);
+            // write on UART
+            uart_puts("Square");
             uart_puts(" f = ");
             uart_puts(data);
             uart_puts(" Hz");
+            // write on LCD
+            lcd_gotoxy(8, 0);
+            lcd_putc('2');
+            lcd_putc(1);
             lcd_gotoxy(10, 1);
             lcd_puts("    ");
             lcd_gotoxy(10, 1);
@@ -308,16 +321,20 @@ ISR(ADC_vect)
         else if (ADC_value > 180 && ADC_value < 190)
         {
             btn_pressed = 3;
-            lcd_gotoxy(8, 0);
-            lcd_putc('3');
-            lcd_putc(2);
-            uart_puts("Triangle");
+            // calculate frequency
             if (btn_pressed == 3) f_Hz = (((1)/(16e-6))/(258))/2;
             else f_Hz = ((1)/(16e-6))/(256);
+            // Convert to string in decimal
             itoa(f_Hz*freq, data, 10);
+            // write on UART
+            uart_puts("Triangle");
             uart_puts(" f = ");
             uart_puts(data);
             uart_puts(" Hz");
+            // write on LCD
+            lcd_gotoxy(8, 0);
+            lcd_putc('3');
+            lcd_putc(2);
             lcd_gotoxy(10, 1);
             lcd_puts("    ");
             lcd_gotoxy(10, 1);
@@ -326,16 +343,20 @@ ISR(ADC_vect)
         else if (ADC_value > 250 && ADC_value < 260)
         {
             btn_pressed = 4;
-            lcd_gotoxy(8, 0);
-            lcd_putc('4');
-            lcd_putc(3);
-            uart_puts("Ramp");
+            // calculate frequency
             if (btn_pressed == 3) f_Hz = (((1)/(16e-6))/(258))/2;
             else f_Hz = ((1)/(16e-6))/(256);
+            // Convert to string in decimal
             itoa(f_Hz*freq, data, 10);
+            // write on UART
+            uart_puts("Ramp");
             uart_puts(" f = ");
             uart_puts(data);
             uart_puts(" Hz");
+            // write on LCD
+            lcd_gotoxy(8, 0);
+            lcd_putc('4');
+            lcd_putc(3);
             lcd_gotoxy(10, 1);
             lcd_puts("    ");
             lcd_gotoxy(10, 1);
@@ -344,14 +365,18 @@ ISR(ADC_vect)
         else if (ADC_value > 506 && ADC_value < 516 && freq > 1)    //*
         {
             btn_pressed_next = 10;
-            uart_puts("f--");
-            uart_puts("\r\n"); 
+            // calculate frequency
             if (btn_pressed == 3) f_Hz = (((1)/(16e-6))/(258))/2;
-            else f_Hz = ((1)/(16e-6))/(256);       
+            else f_Hz = ((1)/(16e-6))/(256);   
+            // Convert to string in decimal    
             itoa(f_Hz*(freq-1), data, 10);
+            // write on UART
+            uart_puts("f--");
+            uart_puts("\r\n");
             uart_puts("f = ");
             uart_puts(data);
             uart_puts(" Hz");
+            // write on LCD
             lcd_gotoxy(10, 1);
             lcd_puts("    ");
             lcd_gotoxy(10, 1);
@@ -361,19 +386,24 @@ ISR(ADC_vect)
         else if (ADC_value > 533 && ADC_value < 543)    //0
         {
             btn_pressed = 11;
+            // write on UART
             uart_puts("Output off");
         }
         else if (ADC_value > 557 && ADC_value < 567)    //#
         {
             btn_pressed_next = 12;
-            uart_puts("f++");
-            uart_puts("\r\n"); 
+            // calculate frequency
             if (btn_pressed == 3) f_Hz = (((1)/(16e-6))/(258))/2;
-            else f_Hz = ((1)/(16e-6))/(256);  
+            else f_Hz = ((1)/(16e-6))/(256); 
+            // Convert to string in decimal 
             itoa(f_Hz*(freq+1), data, 10);
+            // write on UART
+            uart_puts("f++");
+            uart_puts("\r\n");
             uart_puts("f = ");
             uart_puts(data);
             uart_puts(" Hz");
+            // write on LCD
             lcd_gotoxy(10, 1);
             lcd_puts("    ");
             lcd_gotoxy(10, 1);
@@ -381,26 +411,28 @@ ISR(ADC_vect)
         }
         else if (ADC_value > 1017)
         {
+            // write on UART
             uart_puts("\r\n"); 
-        }
-        
-        
+        }     
     }
 
     if (ADC_value > 1017)
     {
+        // nothing pressed, freq_control make sure that freq is changed only once per button press
         freq_control++;
     }
 
+    // show pressed menu
     if (btn_pressed != 11 && control == 0)
     {
+        // write on LCD
         lcd_gotoxy(0, 0);
         lcd_puts("Pressed:   Exit0");
         lcd_gotoxy(0, 1);
         lcd_puts("*f-- #f++     Hz");
         control = 1;
     }
-    //*
+    // * pressed, decrease freq
     if (btn_pressed_next == 10)
     {
         btn_pressed_next = btn_pressed;
@@ -409,9 +441,10 @@ ISR(ADC_vect)
             freq_next = freq - 1;
         }
     }
-    // 0 pressed
+    // 0 pressed, Output off and reset menu
     else if (btn_pressed == 11)
     {
+        // write on LCD
         lcd_gotoxy(0, 0);
         lcd_puts(" Choose signal: ");
         lcd_gotoxy(0, 1);
@@ -425,14 +458,13 @@ ISR(ADC_vect)
         lcd_putc(3);
         lcd_putc(' ');
     
-        value = 0;
         control = 0;
         freq_next = 1;
         freq = 1;
         
     } 
     
-    //#
+    // # pressed, increase freq
     else if (btn_pressed_next == 12)
     {
         btn_pressed_next = btn_pressed;
@@ -442,6 +474,7 @@ ISR(ADC_vect)
         }
     }
     
+    // make sure that freq is changed only once per button press
     if (freq_control >= 10)
     {
         freq = freq_next;
