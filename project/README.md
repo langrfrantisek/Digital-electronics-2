@@ -15,6 +15,10 @@ Použitý mikrokontrolér ATmega328P řídí celý generátor. Maticová kláves
 
 ![diagram](https://user-images.githubusercontent.com/71698018/102279864-6b863300-3f2c-11eb-9747-47fd06339c5d.png)
 
+Za začátku kódu se provede inicializace, nastavení pinů, převodníku, časovačů a vypíše se na display základní menu. Veškerý program se poté ukrývá v ISR daných časovačů a ISR ADC. ISR časovače 1 spouští ADC převod. Po dokončení ADC převodu se vyhodnotí, jestli došlo ke stisku tlačítka. Vyhodnotí se, které tlačítko bylo stisknuto a na UART a display se zapíší ingormace o aktuální frekvenci a jaký signál se právě generuje. O generaci signálu se stará ISR timeru 0. Generace funkce sinus probíhá pomocí lookup tabulky.
+
+Uživatel je po spuštění aplikace vyzván ke stisku tlačítka a na display se mu zobrazí možnosti. Po stisku tlačítka se začne generovat příslušný signál a menu se změní. Dále zobrazuje jaké tlačítko bylo stisknuto, značku příslušného signálu a aktuální frekvenci. Nabízí při stisku nuly návrat k základnímu menu a vypnutí výstupu. Stiskem * dojde ke snížení frekvence a stiskem # dojde k jejímu zvýšení.
+
 [main.c](https://github.com/langrfrantisek/Digital-electronics-2/blob/master/project/DAC/DAC/main.c)
 
 
