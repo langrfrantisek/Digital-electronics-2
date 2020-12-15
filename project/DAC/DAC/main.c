@@ -187,8 +187,6 @@ ISR(TIMER0_OVF_vect)
 	static int16_t number_of_overflows = 0;   
     static uint8_t lookup_number = 0;
 
-    char lcd_string[10] = "          ";
-
     //Writing values to pins, where is the R-2R connected
     PORTD = value & 0b11111100;
     PORTB = (value & 0b00000011) << 2;
@@ -248,8 +246,7 @@ ISR(TIMER0_OVF_vect)
 /* -------------------------------------------------------------------*/
 ISR(TIMER1_OVF_vect)
 {
-   ADCSRA |= (1 << ADSC);
-   
+   ADCSRA |= (1 << ADSC);   
 }
 /* -------------------------------------------------------------------*/
 /**
@@ -259,15 +256,18 @@ ISR(TIMER1_OVF_vect)
 
 ISR(ADC_vect)
 {
+    static uint16_t f_Hz = 244;
+    static uint16_t triangle_f_Hz = 121;
     ADC_value = ADC;
 
     char data[10];
     static uint16_t ADC_value_next = 0;
 
-
     if (ADC_value != ADC_value_next)
     {
         ADC_value_next = ADC_value;
+        
+        
         
         if (ADC_value < 5)
         {
@@ -276,6 +276,16 @@ ISR(ADC_vect)
             lcd_putc('1');
             lcd_putc(0);
             uart_puts("Sine");
+            if (btn_pressed == 3) f_Hz = (((1)/(16e-6))/(258))/2;
+            else f_Hz = ((1)/(16e-6))/(256);
+            itoa(f_Hz*freq, data, 10);
+            uart_puts(" f = ");
+            uart_puts(data);
+            uart_puts(" Hz");
+            lcd_gotoxy(10, 1);
+            lcd_puts("    ");
+            lcd_gotoxy(10, 1);
+            lcd_puts(data);
         }
         else if (ADC_value > 97 && ADC_value < 107)
         {
@@ -284,6 +294,16 @@ ISR(ADC_vect)
             lcd_putc('2');
             lcd_putc(1);
             uart_puts("Square");
+            if (btn_pressed == 3) f_Hz = (((1)/(16e-6))/(258))/2;
+            else f_Hz = ((1)/(16e-6))/(256);
+            itoa(f_Hz*freq, data, 10);
+            uart_puts(" f = ");
+            uart_puts(data);
+            uart_puts(" Hz");
+            lcd_gotoxy(10, 1);
+            lcd_puts("    ");
+            lcd_gotoxy(10, 1);
+            lcd_puts(data);
         }
         else if (ADC_value > 180 && ADC_value < 190)
         {
@@ -292,6 +312,16 @@ ISR(ADC_vect)
             lcd_putc('3');
             lcd_putc(2);
             uart_puts("Triangle");
+            if (btn_pressed == 3) f_Hz = (((1)/(16e-6))/(258))/2;
+            else f_Hz = ((1)/(16e-6))/(256);
+            itoa(f_Hz*freq, data, 10);
+            uart_puts(" f = ");
+            uart_puts(data);
+            uart_puts(" Hz");
+            lcd_gotoxy(10, 1);
+            lcd_puts("    ");
+            lcd_gotoxy(10, 1);
+            lcd_puts(data);
         }
         else if (ADC_value > 250 && ADC_value < 260)
         {
@@ -300,30 +330,60 @@ ISR(ADC_vect)
             lcd_putc('4');
             lcd_putc(3);
             uart_puts("Ramp");
+            if (btn_pressed == 3) f_Hz = (((1)/(16e-6))/(258))/2;
+            else f_Hz = ((1)/(16e-6))/(256);
+            itoa(f_Hz*freq, data, 10);
+            uart_puts(" f = ");
+            uart_puts(data);
+            uart_puts(" Hz");
+            lcd_gotoxy(10, 1);
+            lcd_puts("    ");
+            lcd_gotoxy(10, 1);
+            lcd_puts(data);
         }
-        else if (ADC_value > 506 && ADC_value < 516)
+        else if (ADC_value > 506 && ADC_value < 516 && freq > 1)    //*
         {
-            //lcd_putc('*');
             btn_pressed_next = 10;
             uart_puts("f--");
+            uart_puts("\r\n"); 
+            if (btn_pressed == 3) f_Hz = (((1)/(16e-6))/(258))/2;
+            else f_Hz = ((1)/(16e-6))/(256);       
+            itoa(f_Hz*(freq-1), data, 10);
+            uart_puts("f = ");
+            uart_puts(data);
+            uart_puts(" Hz");
+            lcd_gotoxy(10, 1);
+            lcd_puts("    ");
+            lcd_gotoxy(10, 1);
+            lcd_puts(data);
             
         }
-        else if (ADC_value > 533 && ADC_value < 543)
+        else if (ADC_value > 533 && ADC_value < 543)    //0
         {
-            //lcd_putc('0');
             btn_pressed = 11;
             uart_puts("Output off");
         }
-        else if (ADC_value > 557 && ADC_value < 567)
+        else if (ADC_value > 557 && ADC_value < 567)    //#
         {
-            //lcd_putc('#');
             btn_pressed_next = 12;
             uart_puts("f++");
+            uart_puts("\r\n"); 
+            if (btn_pressed == 3) f_Hz = (((1)/(16e-6))/(258))/2;
+            else f_Hz = ((1)/(16e-6))/(256);  
+            itoa(f_Hz*(freq+1), data, 10);
+            uart_puts("f = ");
+            uart_puts(data);
+            uart_puts(" Hz");
+            lcd_gotoxy(10, 1);
+            lcd_puts("    ");
+            lcd_gotoxy(10, 1);
+            lcd_puts(data);
         }
         else if (ADC_value > 1017)
         {
-            uart_puts("\r\n");
+            uart_puts("\r\n"); 
         }
+        
         
     }
 
