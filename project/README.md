@@ -30,5 +30,7 @@ Uživatel je po spuštění aplikace vyzván ke stisku tlačítka a na display s
 ## Reference
 
 [Peter Fleury's LCD and UART library](http://www.peterfleury.epizy.com/avr-software.html)
+
 [sinus vzorky](http://aquaticus.info/pwm-sine-wave)
+
 https://github.com/tomas-fryza/Digital-electronics-2
