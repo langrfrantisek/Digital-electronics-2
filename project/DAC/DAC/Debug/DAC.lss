@@ -3,31 +3,31 @@ DAC.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000178  00800100  000007e4  00000878  2**0
+  0 .data         000001a8  00800100  00000906  0000099a  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         000007e4  00000000  00000000  00000094  2**1
+  1 .text         00000906  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          0000008d  00800278  00800278  000009f0  2**0
+  2 .bss          0000008d  008002a8  008002a8  00000b42  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  000009f0  2**0
+  3 .comment      00000030  00000000  00000000  00000b42  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000a20  2**2
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000b74  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000148  00000000  00000000  00000a60  2**0
+  5 .debug_aranges 00000158  00000000  00000000  00000bb4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00001951  00000000  00000000  00000ba8  2**0
+  6 .debug_info   00001ad1  00000000  00000000  00000d0c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000ada  00000000  00000000  000024f9  2**0
+  7 .debug_abbrev 00000b28  00000000  00000000  000027dd  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000e08  00000000  00000000  00002fd3  2**0
+  8 .debug_line   00000e8d  00000000  00000000  00003305  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000002ec  00000000  00000000  00003ddc  2**2
+  9 .debug_frame  0000034c  00000000  00000000  00004194  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    0000066e  00000000  00000000  000040c8  2**0
+ 10 .debug_str    00000688  00000000  00000000  000044e0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000b57  00000000  00000000  00004736  2**0
+ 11 .debug_loc    00000c1d  00000000  00000000  00004b68  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000138  00000000  00000000  0000528d  2**0
+ 12 .debug_ranges 00000148  00000000  00000000  00005785  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -46,15 +46,15 @@ Disassembly of section .text:
   28:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
   2c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
   30:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
-  34:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  34:	0c 94 3f 02 	jmp	0x47e	; 0x47e <__vector_13>
   38:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
   3c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
-  40:	0c 94 9c 01 	jmp	0x338	; 0x338 <__vector_16>
+  40:	0c 94 ac 01 	jmp	0x358	; 0x358 <__vector_16>
   44:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
-  48:	0c 94 7f 03 	jmp	0x6fe	; 0x6fe <__vector_18>
-  4c:	0c 94 ad 03 	jmp	0x75a	; 0x75a <__vector_19>
+  48:	0c 94 ec 03 	jmp	0x7d8	; 0x7d8 <__vector_18>
+  4c:	0c 94 1a 04 	jmp	0x834	; 0x834 <__vector_19>
   50:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
-  54:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  54:	0c 94 54 02 	jmp	0x4a8	; 0x4a8 <__vector_21>
   58:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
   5c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
   60:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
@@ -72,18 +72,18 @@ Disassembly of section .text:
   74:	12 e0       	ldi	r17, 0x02	; 2
   76:	a0 e0       	ldi	r26, 0x00	; 0
   78:	b1 e0       	ldi	r27, 0x01	; 1
-  7a:	e4 ee       	ldi	r30, 0xE4	; 228
-  7c:	f7 e0       	ldi	r31, 0x07	; 7
+  7a:	e6 e0       	ldi	r30, 0x06	; 6
+  7c:	f9 e0       	ldi	r31, 0x09	; 9
   7e:	02 c0       	rjmp	.+4      	; 0x84 <__do_copy_data+0x10>
   80:	05 90       	lpm	r0, Z+
   82:	0d 92       	st	X+, r0
-  84:	a8 37       	cpi	r26, 0x78	; 120
+  84:	a8 3a       	cpi	r26, 0xA8	; 168
   86:	b1 07       	cpc	r27, r17
   88:	d9 f7       	brne	.-10     	; 0x80 <__do_copy_data+0xc>
 
 0000008a <__do_clear_bss>:
   8a:	23 e0       	ldi	r18, 0x03	; 3
-  8c:	a8 e7       	ldi	r26, 0x78	; 120
+  8c:	a8 ea       	ldi	r26, 0xA8	; 168
   8e:	b2 e0       	ldi	r27, 0x02	; 2
   90:	01 c0       	rjmp	.+2      	; 0x94 <.do_clear_bss_start>
 
@@ -91,11 +91,11 @@ Disassembly of section .text:
   92:	1d 92       	st	X+, r1
 
 00000094 <.do_clear_bss_start>:
-  94:	a5 30       	cpi	r26, 0x05	; 5
+  94:	a5 33       	cpi	r26, 0x35	; 53
   96:	b2 07       	cpc	r27, r18
   98:	e1 f7       	brne	.-8      	; 0x92 <.do_clear_bss_loop>
   9a:	0e 94 06 01 	call	0x20c	; 0x20c <main>
-  9e:	0c 94 f0 03 	jmp	0x7e0	; 0x7e0 <_exit>
+  9e:	0c 94 81 04 	jmp	0x902	; 0x902 <_exit>
 
 000000a2 <__bad_interrupt>:
   a2:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -405,9 +405,9 @@ int main(void)
     lcd_command(1 << LCD_CGRAM);
  262:	80 e4       	ldi	r24, 0x40	; 64
  264:	0e 94 9a 00 	call	0x134	; 0x134 <lcd_command>
- 268:	c4 e0       	ldi	r28, 0x04	; 4
+ 268:	c0 e0       	ldi	r28, 0x00	; 0
  26a:	d1 e0       	ldi	r29, 0x01	; 1
- 26c:	04 e2       	ldi	r16, 0x24	; 36
+ 26c:	00 e2       	ldi	r16, 0x20	; 32
  26e:	11 e0       	ldi	r17, 0x01	; 1
     for (uint8_t i = 0; i < 8*4; i++)
     {
@@ -447,7 +447,7 @@ int main(void)
  294:	81 e0       	ldi	r24, 0x01	; 1
  296:	0e 94 a2 00 	call	0x144	; 0x144 <lcd_gotoxy>
     lcd_puts("1");
- 29a:	85 e7       	ldi	r24, 0x75	; 117
+ 29a:	85 ea       	ldi	r24, 0xA5	; 165
  29c:	91 e0       	ldi	r25, 0x01	; 1
  29e:	0e 94 b4 00 	call	0x168	; 0x168 <lcd_puts>
     lcd_putc(0);
@@ -516,812 +516,893 @@ int main(void)
  302:	80 83       	st	Z, r24
     
     // Enable conversion complete interrupt
-    //ADCSRA |= (1 << ADIE);
+    ADCSRA |= (1 << ADIE);
+ 304:	80 81       	ld	r24, Z
+ 306:	88 60       	ori	r24, 0x08	; 8
+ 308:	80 83       	st	Z, r24
     
     // Set clock prescaler to 128
     ADCSRA |= (1 << ADPS2);
- 304:	80 81       	ld	r24, Z
- 306:	84 60       	ori	r24, 0x04	; 4
- 308:	80 83       	st	Z, r24
-    ADCSRA |= (1 << ADPS1);
  30a:	80 81       	ld	r24, Z
- 30c:	82 60       	ori	r24, 0x02	; 2
+ 30c:	84 60       	ori	r24, 0x04	; 4
  30e:	80 83       	st	Z, r24
-    ADCSRA |= (1 << ADPS0);
+    ADCSRA |= (1 << ADPS1);
  310:	80 81       	ld	r24, Z
- 312:	81 60       	ori	r24, 0x01	; 1
+ 312:	82 60       	ori	r24, 0x02	; 2
  314:	80 83       	st	Z, r24
+    ADCSRA |= (1 << ADPS0);
+ 316:	80 81       	ld	r24, Z
+ 318:	81 60       	ori	r24, 0x01	; 1
+ 31a:	80 83       	st	Z, r24
     
     
     
     /* Configuration of Timer/Counter0 */
     TIM0_overflow_16us();
- 316:	85 b5       	in	r24, 0x25	; 37
- 318:	89 7f       	andi	r24, 0xF9	; 249
- 31a:	85 bd       	out	0x25, r24	; 37
  31c:	85 b5       	in	r24, 0x25	; 37
- 31e:	81 60       	ori	r24, 0x01	; 1
+ 31e:	89 7f       	andi	r24, 0xF9	; 249
  320:	85 bd       	out	0x25, r24	; 37
+ 322:	85 b5       	in	r24, 0x25	; 37
+ 324:	81 60       	ori	r24, 0x01	; 1
+ 326:	85 bd       	out	0x25, r24	; 37
     TIM0_overflow_interrupt_enable();
- 322:	ee e6       	ldi	r30, 0x6E	; 110
- 324:	f0 e0       	ldi	r31, 0x00	; 0
- 326:	80 81       	ld	r24, Z
- 328:	81 60       	ori	r24, 0x01	; 1
- 32a:	80 83       	st	Z, r24
+ 328:	ee e6       	ldi	r30, 0x6E	; 110
+ 32a:	f0 e0       	ldi	r31, 0x00	; 0
+ 32c:	80 81       	ld	r24, Z
+ 32e:	81 60       	ori	r24, 0x01	; 1
+ 330:	80 83       	st	Z, r24
+    
     /* Configuration of Timer/Counter1 */
-    //TIM1_overflow_262ms();
-    //TIM1_overflow_interrupt_enable();
+    TIM1_overflow_4ms();
+ 332:	e1 e8       	ldi	r30, 0x81	; 129
+ 334:	f0 e0       	ldi	r31, 0x00	; 0
+ 336:	80 81       	ld	r24, Z
+ 338:	89 7f       	andi	r24, 0xF9	; 249
+ 33a:	80 83       	st	Z, r24
+ 33c:	80 81       	ld	r24, Z
+ 33e:	81 60       	ori	r24, 0x01	; 1
+ 340:	80 83       	st	Z, r24
+    TIM1_overflow_interrupt_enable();
+ 342:	ef e6       	ldi	r30, 0x6F	; 111
+ 344:	f0 e0       	ldi	r31, 0x00	; 0
+ 346:	80 81       	ld	r24, Z
+ 348:	81 60       	ori	r24, 0x01	; 1
+ 34a:	80 83       	st	Z, r24
     
     // Initialize UART to asynchronous, 8N1, 9600
     uart_init(UART_BAUD_SELECT(9600, F_CPU));
- 32c:	87 e6       	ldi	r24, 0x67	; 103
- 32e:	90 e0       	ldi	r25, 0x00	; 0
- 330:	0e 94 d7 03 	call	0x7ae	; 0x7ae <uart_init>
+ 34c:	87 e6       	ldi	r24, 0x67	; 103
+ 34e:	90 e0       	ldi	r25, 0x00	; 0
+ 350:	0e 94 44 04 	call	0x888	; 0x888 <uart_init>
     
     // Enables interrupts by setting the global interrupt mask
     sei();
- 334:	78 94       	sei
- 336:	ff cf       	rjmp	.-2      	; 0x336 <main+0x12a>
+ 354:	78 94       	sei
+ 356:	ff cf       	rjmp	.-2      	; 0x356 <main+0x14a>
 
-00000338 <__vector_16>:
+00000358 <__vector_16>:
     return 0;
 }
 
 /* Interrupt service routine ----------------------------------------*/
 ISR(TIMER0_OVF_vect)
 {    
- 338:	1f 92       	push	r1
- 33a:	0f 92       	push	r0
- 33c:	0f b6       	in	r0, 0x3f	; 63
- 33e:	0f 92       	push	r0
- 340:	11 24       	eor	r1, r1
- 342:	2f 93       	push	r18
- 344:	3f 93       	push	r19
- 346:	4f 93       	push	r20
- 348:	5f 93       	push	r21
- 34a:	6f 93       	push	r22
- 34c:	7f 93       	push	r23
- 34e:	8f 93       	push	r24
- 350:	9f 93       	push	r25
- 352:	af 93       	push	r26
- 354:	bf 93       	push	r27
- 356:	ef 93       	push	r30
- 358:	ff 93       	push	r31
-    static uint8_t btn_pressed = 11;   //remember last pressed button, 11 by default means 0 pressed
-    static uint8_t btn_pressed_next = 11;
-    static uint16_t uart_counter = 0;
-    char lcd_string[10] = "          ";
+ 358:	1f 92       	push	r1
+ 35a:	0f 92       	push	r0
+ 35c:	0f b6       	in	r0, 0x3f	; 63
+ 35e:	0f 92       	push	r0
+ 360:	11 24       	eor	r1, r1
+ 362:	2f 93       	push	r18
+ 364:	8f 93       	push	r24
+ 366:	9f 93       	push	r25
+ 368:	ef 93       	push	r30
+ 36a:	ff 93       	push	r31
+    static uint8_t lookup_number = 0;
 
-    ADCSRA |= (1 << ADSC);
- 35a:	ea e7       	ldi	r30, 0x7A	; 122
- 35c:	f0 e0       	ldi	r31, 0x00	; 0
- 35e:	80 81       	ld	r24, Z
- 360:	80 64       	ori	r24, 0x40	; 64
- 362:	80 83       	st	Z, r24
-    ADC_value = ADC;
- 364:	80 91 78 00 	lds	r24, 0x0078	; 0x800078 <__DATA_REGION_ORIGIN__+0x18>
- 368:	90 91 79 00 	lds	r25, 0x0079	; 0x800079 <__DATA_REGION_ORIGIN__+0x19>
- 36c:	90 93 25 01 	sts	0x0125, r25	; 0x800125 <ADC_value+0x1>
- 370:	80 93 24 01 	sts	0x0124, r24	; 0x800124 <ADC_value>
+    char lcd_string[10] = "          ";
 
     //Writing values to pins, where is the R-2R connected
     PORTD = value & 0b11111100;
- 374:	80 91 7f 02 	lds	r24, 0x027F	; 0x80027f <value.2122>
- 378:	8c 7f       	andi	r24, 0xFC	; 252
- 37a:	8b b9       	out	0x0b, r24	; 11
+ 36c:	80 91 ae 02 	lds	r24, 0x02AE	; 0x8002ae <value>
+ 370:	8c 7f       	andi	r24, 0xFC	; 252
+ 372:	8b b9       	out	0x0b, r24	; 11
     PORTB = (value & 0b00000011) << 2;
- 37c:	80 91 7f 02 	lds	r24, 0x027F	; 0x80027f <value.2122>
- 380:	83 70       	andi	r24, 0x03	; 3
- 382:	88 0f       	add	r24, r24
- 384:	88 0f       	add	r24, r24
- 386:	85 b9       	out	0x05, r24	; 5
-    
-    if (btn_pressed != 11 && control == 0)
- 388:	80 91 03 01 	lds	r24, 0x0103	; 0x800103 <btn_pressed.2128>
- 38c:	8b 30       	cpi	r24, 0x0B	; 11
- 38e:	b1 f0       	breq	.+44     	; 0x3bc <__vector_16+0x84>
- 390:	80 91 7e 02 	lds	r24, 0x027E	; 0x80027e <control.2127>
- 394:	81 11       	cpse	r24, r1
- 396:	12 c0       	rjmp	.+36     	; 0x3bc <__vector_16+0x84>
-    {
-        lcd_gotoxy(0, 0);
- 398:	60 e0       	ldi	r22, 0x00	; 0
- 39a:	0e 94 a2 00 	call	0x144	; 0x144 <lcd_gotoxy>
-        lcd_puts("Pressed:   Exit0");
- 39e:	81 e4       	ldi	r24, 0x41	; 65
- 3a0:	91 e0       	ldi	r25, 0x01	; 1
- 3a2:	0e 94 b4 00 	call	0x168	; 0x168 <lcd_puts>
-        lcd_gotoxy(0, 1);
- 3a6:	61 e0       	ldi	r22, 0x01	; 1
- 3a8:	80 e0       	ldi	r24, 0x00	; 0
- 3aa:	0e 94 a2 00 	call	0x144	; 0x144 <lcd_gotoxy>
-        lcd_puts("*f-- #f++     Hz");
- 3ae:	82 e5       	ldi	r24, 0x52	; 82
- 3b0:	91 e0       	ldi	r25, 0x01	; 1
- 3b2:	0e 94 b4 00 	call	0x168	; 0x168 <lcd_puts>
-        control = 1;
- 3b6:	81 e0       	ldi	r24, 0x01	; 1
- 3b8:	80 93 7e 02 	sts	0x027E, r24	; 0x80027e <control.2127>
-    }
-     
-    
-    lcd_gotoxy(8, 0); 
- 3bc:	60 e0       	ldi	r22, 0x00	; 0
- 3be:	88 e0       	ldi	r24, 0x08	; 8
- 3c0:	0e 94 a2 00 	call	0x144	; 0x144 <lcd_gotoxy>
-    if (ADC_value < 5)
- 3c4:	80 91 24 01 	lds	r24, 0x0124	; 0x800124 <ADC_value>
- 3c8:	90 91 25 01 	lds	r25, 0x0125	; 0x800125 <ADC_value+0x1>
- 3cc:	05 97       	sbiw	r24, 0x05	; 5
- 3ce:	50 f4       	brcc	.+20     	; 0x3e4 <__vector_16+0xac>
-    {
-        btn_pressed = 1;
- 3d0:	81 e0       	ldi	r24, 0x01	; 1
- 3d2:	80 93 03 01 	sts	0x0103, r24	; 0x800103 <btn_pressed.2128>
-        lcd_putc('1');
- 3d6:	81 e3       	ldi	r24, 0x31	; 49
- 3d8:	0e 94 b0 00 	call	0x160	; 0x160 <lcd_putc>
-        lcd_putc(0);
- 3dc:	80 e0       	ldi	r24, 0x00	; 0
- 3de:	0e 94 b0 00 	call	0x160	; 0x160 <lcd_putc>
- 3e2:	8a c0       	rjmp	.+276    	; 0x4f8 <__LOCK_REGION_LENGTH__+0xf8>
-    }
-    else if (ADC_value > 97 && ADC_value < 107)
- 3e4:	80 91 24 01 	lds	r24, 0x0124	; 0x800124 <ADC_value>
- 3e8:	90 91 25 01 	lds	r25, 0x0125	; 0x800125 <ADC_value+0x1>
- 3ec:	82 36       	cpi	r24, 0x62	; 98
- 3ee:	91 05       	cpc	r25, r1
- 3f0:	88 f0       	brcs	.+34     	; 0x414 <__LOCK_REGION_LENGTH__+0x14>
- 3f2:	80 91 24 01 	lds	r24, 0x0124	; 0x800124 <ADC_value>
- 3f6:	90 91 25 01 	lds	r25, 0x0125	; 0x800125 <ADC_value+0x1>
- 3fa:	8b 36       	cpi	r24, 0x6B	; 107
- 3fc:	91 05       	cpc	r25, r1
- 3fe:	50 f4       	brcc	.+20     	; 0x414 <__LOCK_REGION_LENGTH__+0x14>
-    {
-        btn_pressed = 2;
- 400:	82 e0       	ldi	r24, 0x02	; 2
- 402:	80 93 03 01 	sts	0x0103, r24	; 0x800103 <btn_pressed.2128>
-        lcd_putc('2');
- 406:	82 e3       	ldi	r24, 0x32	; 50
- 408:	0e 94 b0 00 	call	0x160	; 0x160 <lcd_putc>
-        lcd_putc(1);
- 40c:	81 e0       	ldi	r24, 0x01	; 1
- 40e:	0e 94 b0 00 	call	0x160	; 0x160 <lcd_putc>
- 412:	72 c0       	rjmp	.+228    	; 0x4f8 <__LOCK_REGION_LENGTH__+0xf8>
-    }
-    else if (ADC_value > 180 && ADC_value < 190)
- 414:	80 91 24 01 	lds	r24, 0x0124	; 0x800124 <ADC_value>
- 418:	90 91 25 01 	lds	r25, 0x0125	; 0x800125 <ADC_value+0x1>
- 41c:	85 3b       	cpi	r24, 0xB5	; 181
- 41e:	91 05       	cpc	r25, r1
- 420:	88 f0       	brcs	.+34     	; 0x444 <__LOCK_REGION_LENGTH__+0x44>
- 422:	80 91 24 01 	lds	r24, 0x0124	; 0x800124 <ADC_value>
- 426:	90 91 25 01 	lds	r25, 0x0125	; 0x800125 <ADC_value+0x1>
- 42a:	8e 3b       	cpi	r24, 0xBE	; 190
- 42c:	91 05       	cpc	r25, r1
- 42e:	50 f4       	brcc	.+20     	; 0x444 <__LOCK_REGION_LENGTH__+0x44>
-    {
-        btn_pressed = 3;
- 430:	83 e0       	ldi	r24, 0x03	; 3
- 432:	80 93 03 01 	sts	0x0103, r24	; 0x800103 <btn_pressed.2128>
-        lcd_putc('3');
- 436:	83 e3       	ldi	r24, 0x33	; 51
- 438:	0e 94 b0 00 	call	0x160	; 0x160 <lcd_putc>
-        lcd_putc(2);
- 43c:	82 e0       	ldi	r24, 0x02	; 2
- 43e:	0e 94 b0 00 	call	0x160	; 0x160 <lcd_putc>
- 442:	5a c0       	rjmp	.+180    	; 0x4f8 <__LOCK_REGION_LENGTH__+0xf8>
-    }
-    else if (ADC_value > 250 && ADC_value < 260)
- 444:	80 91 24 01 	lds	r24, 0x0124	; 0x800124 <ADC_value>
- 448:	90 91 25 01 	lds	r25, 0x0125	; 0x800125 <ADC_value+0x1>
- 44c:	8b 3f       	cpi	r24, 0xFB	; 251
- 44e:	91 05       	cpc	r25, r1
- 450:	88 f0       	brcs	.+34     	; 0x474 <__LOCK_REGION_LENGTH__+0x74>
- 452:	80 91 24 01 	lds	r24, 0x0124	; 0x800124 <ADC_value>
- 456:	90 91 25 01 	lds	r25, 0x0125	; 0x800125 <ADC_value+0x1>
- 45a:	84 30       	cpi	r24, 0x04	; 4
- 45c:	91 40       	sbci	r25, 0x01	; 1
- 45e:	50 f4       	brcc	.+20     	; 0x474 <__LOCK_REGION_LENGTH__+0x74>
-    {
-        btn_pressed = 4;
- 460:	84 e0       	ldi	r24, 0x04	; 4
- 462:	80 93 03 01 	sts	0x0103, r24	; 0x800103 <btn_pressed.2128>
-        lcd_putc('4');
- 466:	84 e3       	ldi	r24, 0x34	; 52
- 468:	0e 94 b0 00 	call	0x160	; 0x160 <lcd_putc>
-        lcd_putc(3);
- 46c:	83 e0       	ldi	r24, 0x03	; 3
- 46e:	0e 94 b0 00 	call	0x160	; 0x160 <lcd_putc>
- 472:	42 c0       	rjmp	.+132    	; 0x4f8 <__LOCK_REGION_LENGTH__+0xf8>
-    }
-    else if (ADC_value > 506 && ADC_value < 516)
- 474:	80 91 24 01 	lds	r24, 0x0124	; 0x800124 <ADC_value>
- 478:	90 91 25 01 	lds	r25, 0x0125	; 0x800125 <ADC_value+0x1>
- 47c:	8b 3f       	cpi	r24, 0xFB	; 251
- 47e:	91 40       	sbci	r25, 0x01	; 1
- 480:	58 f0       	brcs	.+22     	; 0x498 <__LOCK_REGION_LENGTH__+0x98>
- 482:	80 91 24 01 	lds	r24, 0x0124	; 0x800124 <ADC_value>
- 486:	90 91 25 01 	lds	r25, 0x0125	; 0x800125 <ADC_value+0x1>
- 48a:	84 30       	cpi	r24, 0x04	; 4
- 48c:	92 40       	sbci	r25, 0x02	; 2
- 48e:	20 f4       	brcc	.+8      	; 0x498 <__LOCK_REGION_LENGTH__+0x98>
-    {
-        //lcd_putc('*');
-        btn_pressed_next = 10;
- 490:	8a e0       	ldi	r24, 0x0A	; 10
- 492:	80 93 02 01 	sts	0x0102, r24	; 0x800102 <btn_pressed_next.2129>
- 496:	30 c0       	rjmp	.+96     	; 0x4f8 <__LOCK_REGION_LENGTH__+0xf8>
-                
-    }
-    else if (ADC_value > 533 && ADC_value < 543)
- 498:	80 91 24 01 	lds	r24, 0x0124	; 0x800124 <ADC_value>
- 49c:	90 91 25 01 	lds	r25, 0x0125	; 0x800125 <ADC_value+0x1>
- 4a0:	86 31       	cpi	r24, 0x16	; 22
- 4a2:	92 40       	sbci	r25, 0x02	; 2
- 4a4:	58 f0       	brcs	.+22     	; 0x4bc <__LOCK_REGION_LENGTH__+0xbc>
- 4a6:	80 91 24 01 	lds	r24, 0x0124	; 0x800124 <ADC_value>
- 4aa:	90 91 25 01 	lds	r25, 0x0125	; 0x800125 <ADC_value+0x1>
- 4ae:	8f 31       	cpi	r24, 0x1F	; 31
- 4b0:	92 40       	sbci	r25, 0x02	; 2
- 4b2:	20 f4       	brcc	.+8      	; 0x4bc <__LOCK_REGION_LENGTH__+0xbc>
-    {
-        //lcd_putc('0');
-        btn_pressed = 11;
- 4b4:	8b e0       	ldi	r24, 0x0B	; 11
- 4b6:	80 93 03 01 	sts	0x0103, r24	; 0x800103 <btn_pressed.2128>
- 4ba:	4a c0       	rjmp	.+148    	; 0x550 <__LOCK_REGION_LENGTH__+0x150>
-    }
-    else if (ADC_value > 557 && ADC_value < 567)
- 4bc:	80 91 24 01 	lds	r24, 0x0124	; 0x800124 <ADC_value>
- 4c0:	90 91 25 01 	lds	r25, 0x0125	; 0x800125 <ADC_value+0x1>
- 4c4:	8e 32       	cpi	r24, 0x2E	; 46
- 4c6:	92 40       	sbci	r25, 0x02	; 2
- 4c8:	58 f0       	brcs	.+22     	; 0x4e0 <__LOCK_REGION_LENGTH__+0xe0>
- 4ca:	80 91 24 01 	lds	r24, 0x0124	; 0x800124 <ADC_value>
- 4ce:	90 91 25 01 	lds	r25, 0x0125	; 0x800125 <ADC_value+0x1>
- 4d2:	87 33       	cpi	r24, 0x37	; 55
- 4d4:	92 40       	sbci	r25, 0x02	; 2
- 4d6:	20 f4       	brcc	.+8      	; 0x4e0 <__LOCK_REGION_LENGTH__+0xe0>
-    {
-        //lcd_putc('#');
-        btn_pressed_next = 12;
- 4d8:	8c e0       	ldi	r24, 0x0C	; 12
- 4da:	80 93 02 01 	sts	0x0102, r24	; 0x800102 <btn_pressed_next.2129>
- 4de:	0c c0       	rjmp	.+24     	; 0x4f8 <__LOCK_REGION_LENGTH__+0xf8>
-    }
-    else if (ADC_value > 1017)
- 4e0:	80 91 24 01 	lds	r24, 0x0124	; 0x800124 <ADC_value>
- 4e4:	90 91 25 01 	lds	r25, 0x0125	; 0x800125 <ADC_value+0x1>
- 4e8:	8a 3f       	cpi	r24, 0xFA	; 250
- 4ea:	93 40       	sbci	r25, 0x03	; 3
- 4ec:	28 f0       	brcs	.+10     	; 0x4f8 <__LOCK_REGION_LENGTH__+0xf8>
-    {
-        freq_control++;
- 4ee:	80 91 7d 02 	lds	r24, 0x027D	; 0x80027d <freq_control.2126>
- 4f2:	8f 5f       	subi	r24, 0xFF	; 255
- 4f4:	80 93 7d 02 	sts	0x027D, r24	; 0x80027d <freq_control.2126>
-    }
-    
+ 374:	80 91 ae 02 	lds	r24, 0x02AE	; 0x8002ae <value>
+ 378:	83 70       	andi	r24, 0x03	; 3
+ 37a:	88 0f       	add	r24, r24
+ 37c:	88 0f       	add	r24, r24
+ 37e:	85 b9       	out	0x05, r24	; 5
+  
     //Sine function
     if (btn_pressed == 1)
- 4f8:	80 91 03 01 	lds	r24, 0x0103	; 0x800103 <btn_pressed.2128>
- 4fc:	81 30       	cpi	r24, 0x01	; 1
- 4fe:	79 f4       	brne	.+30     	; 0x51e <__LOCK_REGION_LENGTH__+0x11e>
+ 380:	80 91 23 01 	lds	r24, 0x0123	; 0x800123 <btn_pressed>
+ 384:	81 30       	cpi	r24, 0x01	; 1
+ 386:	71 f4       	brne	.+28     	; 0x3a4 <__vector_16+0x4c>
     {
         value = sine_wave[lookup_number];
- 500:	90 91 7c 02 	lds	r25, 0x027C	; 0x80027c <lookup_number.2123>
- 504:	e9 2f       	mov	r30, r25
- 506:	f0 e0       	ldi	r31, 0x00	; 0
- 508:	e9 58       	subi	r30, 0x89	; 137
- 50a:	fe 4f       	sbci	r31, 0xFE	; 254
- 50c:	20 81       	ld	r18, Z
- 50e:	20 93 7f 02 	sts	0x027F, r18	; 0x80027f <value.2122>
+ 388:	90 91 ac 02 	lds	r25, 0x02AC	; 0x8002ac <lookup_number.2129>
+ 38c:	e9 2f       	mov	r30, r25
+ 38e:	f0 e0       	ldi	r31, 0x00	; 0
+ 390:	e9 55       	subi	r30, 0x59	; 89
+ 392:	fe 4f       	sbci	r31, 0xFE	; 254
+ 394:	80 81       	ld	r24, Z
+ 396:	80 93 ae 02 	sts	0x02AE, r24	; 0x8002ae <value>
         lookup_number += freq;
- 512:	20 91 01 01 	lds	r18, 0x0101	; 0x800101 <freq.2124>
- 516:	92 0f       	add	r25, r18
- 518:	90 93 7c 02 	sts	0x027C, r25	; 0x80027c <lookup_number.2123>
- 51c:	3f c0       	rjmp	.+126    	; 0x59c <__LOCK_REGION_LENGTH__+0x19c>
+ 39a:	80 91 21 01 	lds	r24, 0x0121	; 0x800121 <freq>
+ 39e:	89 0f       	add	r24, r25
+ 3a0:	80 93 ac 02 	sts	0x02AC, r24	; 0x8002ac <lookup_number.2129>
     }
     
     //Square function
     if (btn_pressed == 2)
- 51e:	82 30       	cpi	r24, 0x02	; 2
- 520:	b9 f4       	brne	.+46     	; 0x550 <__LOCK_REGION_LENGTH__+0x150>
+ 3a4:	80 91 23 01 	lds	r24, 0x0123	; 0x800123 <btn_pressed>
+ 3a8:	82 30       	cpi	r24, 0x02	; 2
+ 3aa:	b9 f4       	brne	.+46     	; 0x3da <__vector_16+0x82>
     {
         if (number_of_overflows < 128)
- 522:	20 91 7a 02 	lds	r18, 0x027A	; 0x80027a <number_of_overflows.2121>
- 526:	30 91 7b 02 	lds	r19, 0x027B	; 0x80027b <number_of_overflows.2121+0x1>
- 52a:	20 38       	cpi	r18, 0x80	; 128
- 52c:	31 05       	cpc	r19, r1
- 52e:	24 f4       	brge	.+8      	; 0x538 <__LOCK_REGION_LENGTH__+0x138>
+ 3ac:	80 91 aa 02 	lds	r24, 0x02AA	; 0x8002aa <number_of_overflows.2128>
+ 3b0:	90 91 ab 02 	lds	r25, 0x02AB	; 0x8002ab <number_of_overflows.2128+0x1>
+ 3b4:	80 38       	cpi	r24, 0x80	; 128
+ 3b6:	91 05       	cpc	r25, r1
+ 3b8:	24 f4       	brge	.+8      	; 0x3c2 <__vector_16+0x6a>
         {
             value = 0b11111111;
- 530:	9f ef       	ldi	r25, 0xFF	; 255
- 532:	90 93 7f 02 	sts	0x027F, r25	; 0x80027f <value.2122>
- 536:	41 c0       	rjmp	.+130    	; 0x5ba <__LOCK_REGION_LENGTH__+0x1ba>
+ 3ba:	8f ef       	ldi	r24, 0xFF	; 255
+ 3bc:	80 93 ae 02 	sts	0x02AE, r24	; 0x8002ae <value>
+ 3c0:	0c c0       	rjmp	.+24     	; 0x3da <__vector_16+0x82>
         }
         else if (number_of_overflows < 256)
- 538:	2f 3f       	cpi	r18, 0xFF	; 255
- 53a:	31 05       	cpc	r19, r1
- 53c:	09 f0       	breq	.+2      	; 0x540 <__LOCK_REGION_LENGTH__+0x140>
- 53e:	1c f4       	brge	.+6      	; 0x546 <__LOCK_REGION_LENGTH__+0x146>
+ 3c2:	8f 3f       	cpi	r24, 0xFF	; 255
+ 3c4:	91 05       	cpc	r25, r1
+ 3c6:	09 f0       	breq	.+2      	; 0x3ca <__vector_16+0x72>
+ 3c8:	1c f4       	brge	.+6      	; 0x3d0 <__vector_16+0x78>
         {
             value = 0;
- 540:	10 92 7f 02 	sts	0x027F, r1	; 0x80027f <value.2122>
- 544:	3a c0       	rjmp	.+116    	; 0x5ba <__LOCK_REGION_LENGTH__+0x1ba>
+ 3ca:	10 92 ae 02 	sts	0x02AE, r1	; 0x8002ae <value>
+ 3ce:	48 c0       	rjmp	.+144    	; 0x460 <__LOCK_REGION_LENGTH__+0x60>
         }
         else
         {
             number_of_overflows = 0;
- 546:	10 92 7b 02 	sts	0x027B, r1	; 0x80027b <number_of_overflows.2121+0x1>
- 54a:	10 92 7a 02 	sts	0x027A, r1	; 0x80027a <number_of_overflows.2121>
- 54e:	35 c0       	rjmp	.+106    	; 0x5ba <__LOCK_REGION_LENGTH__+0x1ba>
+ 3d0:	10 92 ab 02 	sts	0x02AB, r1	; 0x8002ab <number_of_overflows.2128+0x1>
+ 3d4:	10 92 aa 02 	sts	0x02AA, r1	; 0x8002aa <number_of_overflows.2128>
+ 3d8:	43 c0       	rjmp	.+134    	; 0x460 <__LOCK_REGION_LENGTH__+0x60>
         }
     }
     
     //Triangle function
     if (btn_pressed == 3)
- 550:	83 30       	cpi	r24, 0x03	; 3
- 552:	21 f5       	brne	.+72     	; 0x59c <__LOCK_REGION_LENGTH__+0x19c>
+ 3da:	80 91 23 01 	lds	r24, 0x0123	; 0x800123 <btn_pressed>
+ 3de:	83 30       	cpi	r24, 0x03	; 3
+ 3e0:	39 f5       	brne	.+78     	; 0x430 <__LOCK_REGION_LENGTH__+0x30>
     {
         
         if (number_of_overflows < 256 && value >= 0)
- 554:	20 91 7a 02 	lds	r18, 0x027A	; 0x80027a <number_of_overflows.2121>
- 558:	30 91 7b 02 	lds	r19, 0x027B	; 0x80027b <number_of_overflows.2121+0x1>
- 55c:	2f 3f       	cpi	r18, 0xFF	; 255
- 55e:	31 05       	cpc	r19, r1
- 560:	09 f0       	breq	.+2      	; 0x564 <__LOCK_REGION_LENGTH__+0x164>
- 562:	44 f4       	brge	.+16     	; 0x574 <__LOCK_REGION_LENGTH__+0x174>
+ 3e2:	80 91 aa 02 	lds	r24, 0x02AA	; 0x8002aa <number_of_overflows.2128>
+ 3e6:	90 91 ab 02 	lds	r25, 0x02AB	; 0x8002ab <number_of_overflows.2128+0x1>
+ 3ea:	8f 3f       	cpi	r24, 0xFF	; 255
+ 3ec:	91 05       	cpc	r25, r1
+ 3ee:	09 f0       	breq	.+2      	; 0x3f2 <__vector_16+0x9a>
+ 3f0:	54 f4       	brge	.+20     	; 0x406 <__LOCK_REGION_LENGTH__+0x6>
+ 3f2:	80 91 ae 02 	lds	r24, 0x02AE	; 0x8002ae <value>
         {        
             value += freq;
- 564:	20 91 7f 02 	lds	r18, 0x027F	; 0x80027f <value.2122>
- 568:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <freq.2124>
- 56c:	92 0f       	add	r25, r18
- 56e:	90 93 7f 02 	sts	0x027F, r25	; 0x80027f <value.2122>
- 572:	a5 c0       	rjmp	.+330    	; 0x6be <__LOCK_REGION_LENGTH__+0x2be>
+ 3f6:	90 91 21 01 	lds	r25, 0x0121	; 0x800121 <freq>
+ 3fa:	80 91 ae 02 	lds	r24, 0x02AE	; 0x8002ae <value>
+ 3fe:	89 0f       	add	r24, r25
+ 400:	80 93 ae 02 	sts	0x02AE, r24	; 0x8002ae <value>
+ 404:	15 c0       	rjmp	.+42     	; 0x430 <__LOCK_REGION_LENGTH__+0x30>
         } 
         else if (number_of_overflows < 511 && value > 0)
- 574:	2f 3f       	cpi	r18, 0xFF	; 255
- 576:	31 40       	sbci	r19, 0x01	; 1
- 578:	54 f4       	brge	.+20     	; 0x58e <__LOCK_REGION_LENGTH__+0x18e>
- 57a:	90 91 7f 02 	lds	r25, 0x027F	; 0x80027f <value.2122>
- 57e:	99 23       	and	r25, r25
- 580:	31 f0       	breq	.+12     	; 0x58e <__LOCK_REGION_LENGTH__+0x18e>
+ 406:	8f 3f       	cpi	r24, 0xFF	; 255
+ 408:	91 40       	sbci	r25, 0x01	; 1
+ 40a:	64 f4       	brge	.+24     	; 0x424 <__LOCK_REGION_LENGTH__+0x24>
+ 40c:	80 91 ae 02 	lds	r24, 0x02AE	; 0x8002ae <value>
+ 410:	88 23       	and	r24, r24
+ 412:	41 f0       	breq	.+16     	; 0x424 <__LOCK_REGION_LENGTH__+0x24>
         {
             value -= freq;
- 582:	20 91 01 01 	lds	r18, 0x0101	; 0x800101 <freq.2124>
- 586:	92 1b       	sub	r25, r18
- 588:	90 93 7f 02 	sts	0x027F, r25	; 0x80027f <value.2122>
- 58c:	98 c0       	rjmp	.+304    	; 0x6be <__LOCK_REGION_LENGTH__+0x2be>
+ 414:	90 91 21 01 	lds	r25, 0x0121	; 0x800121 <freq>
+ 418:	80 91 ae 02 	lds	r24, 0x02AE	; 0x8002ae <value>
+ 41c:	89 1b       	sub	r24, r25
+ 41e:	80 93 ae 02 	sts	0x02AE, r24	; 0x8002ae <value>
+ 422:	06 c0       	rjmp	.+12     	; 0x430 <__LOCK_REGION_LENGTH__+0x30>
         }
         else 
         {
             number_of_overflows = 0;
- 58e:	10 92 7b 02 	sts	0x027B, r1	; 0x80027b <number_of_overflows.2121+0x1>
- 592:	10 92 7a 02 	sts	0x027A, r1	; 0x80027a <number_of_overflows.2121>
+ 424:	10 92 ab 02 	sts	0x02AB, r1	; 0x8002ab <number_of_overflows.2128+0x1>
+ 428:	10 92 aa 02 	sts	0x02AA, r1	; 0x8002aa <number_of_overflows.2128>
             value = 0;
- 596:	10 92 7f 02 	sts	0x027F, r1	; 0x80027f <value.2122>
- 59a:	91 c0       	rjmp	.+290    	; 0x6be <__LOCK_REGION_LENGTH__+0x2be>
+ 42c:	10 92 ae 02 	sts	0x02AE, r1	; 0x8002ae <value>
         }
     }
       
     //Ramp function    
     if (btn_pressed == 4)
- 59c:	84 30       	cpi	r24, 0x04	; 4
- 59e:	69 f4       	brne	.+26     	; 0x5ba <__LOCK_REGION_LENGTH__+0x1ba>
+ 430:	80 91 23 01 	lds	r24, 0x0123	; 0x800123 <btn_pressed>
+ 434:	84 30       	cpi	r24, 0x04	; 4
+ 436:	39 f4       	brne	.+14     	; 0x446 <__LOCK_REGION_LENGTH__+0x46>
     {
         value += freq;
- 5a0:	20 91 7f 02 	lds	r18, 0x027F	; 0x80027f <value.2122>
- 5a4:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <freq.2124>
- 5a8:	92 0f       	add	r25, r18
- 5aa:	90 93 7f 02 	sts	0x027F, r25	; 0x80027f <value.2122>
+ 438:	90 91 21 01 	lds	r25, 0x0121	; 0x800121 <freq>
+ 43c:	80 91 ae 02 	lds	r24, 0x02AE	; 0x8002ae <value>
+ 440:	89 0f       	add	r24, r25
+ 442:	80 93 ae 02 	sts	0x02AE, r24	; 0x8002ae <value>
     }
-    
-    //*
-    if (btn_pressed_next == 10)
- 5ae:	90 91 02 01 	lds	r25, 0x0102	; 0x800102 <btn_pressed_next.2129>
- 5b2:	9a 30       	cpi	r25, 0x0A	; 10
- 5b4:	09 f0       	breq	.+2      	; 0x5b8 <__LOCK_REGION_LENGTH__+0x1b8>
- 5b6:	48 c0       	rjmp	.+144    	; 0x648 <__LOCK_REGION_LENGTH__+0x248>
- 5b8:	87 c0       	rjmp	.+270    	; 0x6c8 <__LOCK_REGION_LENGTH__+0x2c8>
- 5ba:	90 91 02 01 	lds	r25, 0x0102	; 0x800102 <btn_pressed_next.2129>
- 5be:	9a 30       	cpi	r25, 0x0A	; 10
- 5c0:	69 f4       	brne	.+26     	; 0x5dc <__LOCK_REGION_LENGTH__+0x1dc>
-    {
-        btn_pressed_next = btn_pressed;
- 5c2:	80 93 02 01 	sts	0x0102, r24	; 0x800102 <btn_pressed_next.2129>
-        if (freq_next == freq && freq > 1)
- 5c6:	90 91 00 01 	lds	r25, 0x0100	; 0x800100 <__data_start>
- 5ca:	20 91 01 01 	lds	r18, 0x0101	; 0x800101 <freq.2124>
- 5ce:	92 13       	cpse	r25, r18
- 5d0:	05 c0       	rjmp	.+10     	; 0x5dc <__LOCK_REGION_LENGTH__+0x1dc>
- 5d2:	92 30       	cpi	r25, 0x02	; 2
- 5d4:	18 f0       	brcs	.+6      	; 0x5dc <__LOCK_REGION_LENGTH__+0x1dc>
-        {
-            freq_next = freq - 1;
- 5d6:	91 50       	subi	r25, 0x01	; 1
- 5d8:	90 93 00 01 	sts	0x0100, r25	; 0x800100 <__data_start>
+       
+    number_of_overflows += freq;   
+ 446:	20 91 21 01 	lds	r18, 0x0121	; 0x800121 <freq>
+ 44a:	80 91 aa 02 	lds	r24, 0x02AA	; 0x8002aa <number_of_overflows.2128>
+ 44e:	90 91 ab 02 	lds	r25, 0x02AB	; 0x8002ab <number_of_overflows.2128+0x1>
+ 452:	82 0f       	add	r24, r18
+ 454:	91 1d       	adc	r25, r1
+ 456:	90 93 ab 02 	sts	0x02AB, r25	; 0x8002ab <number_of_overflows.2128+0x1>
+ 45a:	80 93 aa 02 	sts	0x02AA, r24	; 0x8002aa <number_of_overflows.2128>
+  
+}
+ 45e:	05 c0       	rjmp	.+10     	; 0x46a <__LOCK_REGION_LENGTH__+0x6a>
+            number_of_overflows = 0;
         }
     }
     
-    // 0 pressed
-    if (btn_pressed == 11)
- 5dc:	8b 30       	cpi	r24, 0x0B	; 11
- 5de:	a1 f5       	brne	.+104    	; 0x648 <__LOCK_REGION_LENGTH__+0x248>
-    {  
-        lcd_gotoxy(0, 0);
- 5e0:	60 e0       	ldi	r22, 0x00	; 0
- 5e2:	80 e0       	ldi	r24, 0x00	; 0
- 5e4:	0e 94 a2 00 	call	0x144	; 0x144 <lcd_gotoxy>
-        lcd_puts(" Choose signal: ");
- 5e8:	83 e6       	ldi	r24, 0x63	; 99
- 5ea:	91 e0       	ldi	r25, 0x01	; 1
- 5ec:	0e 94 b4 00 	call	0x168	; 0x168 <lcd_puts>
-        lcd_gotoxy(0, 1);
- 5f0:	61 e0       	ldi	r22, 0x01	; 1
- 5f2:	80 e0       	ldi	r24, 0x00	; 0
- 5f4:	0e 94 a2 00 	call	0x144	; 0x144 <lcd_gotoxy>
-        lcd_puts(" 1");
- 5f8:	84 e7       	ldi	r24, 0x74	; 116
- 5fa:	91 e0       	ldi	r25, 0x01	; 1
- 5fc:	0e 94 b4 00 	call	0x168	; 0x168 <lcd_puts>
-        lcd_putc(0);
- 600:	80 e0       	ldi	r24, 0x00	; 0
- 602:	0e 94 b0 00 	call	0x160	; 0x160 <lcd_putc>
-        lcd_puts("  2");
- 606:	85 e3       	ldi	r24, 0x35	; 53
- 608:	91 e0       	ldi	r25, 0x01	; 1
- 60a:	0e 94 b4 00 	call	0x168	; 0x168 <lcd_puts>
-        lcd_putc(1);
- 60e:	81 e0       	ldi	r24, 0x01	; 1
- 610:	0e 94 b0 00 	call	0x160	; 0x160 <lcd_putc>
-        lcd_puts("  3");
- 614:	89 e3       	ldi	r24, 0x39	; 57
- 616:	91 e0       	ldi	r25, 0x01	; 1
- 618:	0e 94 b4 00 	call	0x168	; 0x168 <lcd_puts>
-        lcd_putc(2);
- 61c:	82 e0       	ldi	r24, 0x02	; 2
- 61e:	0e 94 b0 00 	call	0x160	; 0x160 <lcd_putc>
-        lcd_puts("  4");
- 622:	8d e3       	ldi	r24, 0x3D	; 61
- 624:	91 e0       	ldi	r25, 0x01	; 1
- 626:	0e 94 b4 00 	call	0x168	; 0x168 <lcd_puts>
-        lcd_putc(3);
- 62a:	83 e0       	ldi	r24, 0x03	; 3
- 62c:	0e 94 b0 00 	call	0x160	; 0x160 <lcd_putc>
-        lcd_putc(' ');
- 630:	80 e2       	ldi	r24, 0x20	; 32
- 632:	0e 94 b0 00 	call	0x160	; 0x160 <lcd_putc>
+    //Triangle function
+    if (btn_pressed == 3)
+ 460:	80 91 23 01 	lds	r24, 0x0123	; 0x800123 <btn_pressed>
+ 464:	83 30       	cpi	r24, 0x03	; 3
+ 466:	21 f7       	brne	.-56     	; 0x430 <__LOCK_REGION_LENGTH__+0x30>
+ 468:	c4 cf       	rjmp	.-120    	; 0x3f2 <__vector_16+0x9a>
+        value += freq;
+    }
+       
+    number_of_overflows += freq;   
+  
+}
+ 46a:	ff 91       	pop	r31
+ 46c:	ef 91       	pop	r30
+ 46e:	9f 91       	pop	r25
+ 470:	8f 91       	pop	r24
+ 472:	2f 91       	pop	r18
+ 474:	0f 90       	pop	r0
+ 476:	0f be       	out	0x3f, r0	; 63
+ 478:	0f 90       	pop	r0
+ 47a:	1f 90       	pop	r1
+ 47c:	18 95       	reti
+
+0000047e <__vector_13>:
+/* -------------------------------------------------------------------*/
+ISR(TIMER1_OVF_vect)
+{
+ 47e:	1f 92       	push	r1
+ 480:	0f 92       	push	r0
+ 482:	0f b6       	in	r0, 0x3f	; 63
+ 484:	0f 92       	push	r0
+ 486:	11 24       	eor	r1, r1
+ 488:	8f 93       	push	r24
+ 48a:	ef 93       	push	r30
+ 48c:	ff 93       	push	r31
+   ADCSRA |= (1 << ADSC);
+ 48e:	ea e7       	ldi	r30, 0x7A	; 122
+ 490:	f0 e0       	ldi	r31, 0x00	; 0
+ 492:	80 81       	ld	r24, Z
+ 494:	80 64       	ori	r24, 0x40	; 64
+ 496:	80 83       	st	Z, r24
+   
+}
+ 498:	ff 91       	pop	r31
+ 49a:	ef 91       	pop	r30
+ 49c:	8f 91       	pop	r24
+ 49e:	0f 90       	pop	r0
+ 4a0:	0f be       	out	0x3f, r0	; 63
+ 4a2:	0f 90       	pop	r0
+ 4a4:	1f 90       	pop	r1
+ 4a6:	18 95       	reti
+
+000004a8 <__vector_21>:
+ * ISR starts when ADC completes the conversion. Display value on LCD
+ * and send it to UART.
+ */
+
+ISR(ADC_vect)
+{
+ 4a8:	1f 92       	push	r1
+ 4aa:	0f 92       	push	r0
+ 4ac:	0f b6       	in	r0, 0x3f	; 63
+ 4ae:	0f 92       	push	r0
+ 4b0:	11 24       	eor	r1, r1
+ 4b2:	2f 93       	push	r18
+ 4b4:	3f 93       	push	r19
+ 4b6:	4f 93       	push	r20
+ 4b8:	5f 93       	push	r21
+ 4ba:	6f 93       	push	r22
+ 4bc:	7f 93       	push	r23
+ 4be:	8f 93       	push	r24
+ 4c0:	9f 93       	push	r25
+ 4c2:	af 93       	push	r26
+ 4c4:	bf 93       	push	r27
+ 4c6:	ef 93       	push	r30
+ 4c8:	ff 93       	push	r31
+    ADC_value = ADC;
+ 4ca:	80 91 78 00 	lds	r24, 0x0078	; 0x800078 <__DATA_REGION_ORIGIN__+0x18>
+ 4ce:	90 91 79 00 	lds	r25, 0x0079	; 0x800079 <__DATA_REGION_ORIGIN__+0x19>
+ 4d2:	90 93 25 01 	sts	0x0125, r25	; 0x800125 <ADC_value+0x1>
+ 4d6:	80 93 24 01 	sts	0x0124, r24	; 0x800124 <ADC_value>
+
+    char data[10];
+    static uint16_t ADC_value_next = 0;
+
+
+    if (ADC_value != ADC_value_next)
+ 4da:	20 91 24 01 	lds	r18, 0x0124	; 0x800124 <ADC_value>
+ 4de:	30 91 25 01 	lds	r19, 0x0125	; 0x800125 <ADC_value+0x1>
+ 4e2:	80 91 a8 02 	lds	r24, 0x02A8	; 0x8002a8 <__data_end>
+ 4e6:	90 91 a9 02 	lds	r25, 0x02A9	; 0x8002a9 <__data_end+0x1>
+ 4ea:	28 17       	cp	r18, r24
+ 4ec:	39 07       	cpc	r19, r25
+ 4ee:	09 f4       	brne	.+2      	; 0x4f2 <__vector_21+0x4a>
+ 4f0:	cd c0       	rjmp	.+410    	; 0x68c <__vector_21+0x1e4>
+    {
+        ADC_value_next = ADC_value;
+ 4f2:	80 91 24 01 	lds	r24, 0x0124	; 0x800124 <ADC_value>
+ 4f6:	90 91 25 01 	lds	r25, 0x0125	; 0x800125 <ADC_value+0x1>
+ 4fa:	90 93 a9 02 	sts	0x02A9, r25	; 0x8002a9 <__data_end+0x1>
+ 4fe:	80 93 a8 02 	sts	0x02A8, r24	; 0x8002a8 <__data_end>
         
+        if (ADC_value < 5)
+ 502:	80 91 24 01 	lds	r24, 0x0124	; 0x800124 <ADC_value>
+ 506:	90 91 25 01 	lds	r25, 0x0125	; 0x800125 <ADC_value+0x1>
+ 50a:	05 97       	sbiw	r24, 0x05	; 5
+ 50c:	90 f4       	brcc	.+36     	; 0x532 <__vector_21+0x8a>
+        {
+            btn_pressed = 1;
+ 50e:	81 e0       	ldi	r24, 0x01	; 1
+ 510:	80 93 23 01 	sts	0x0123, r24	; 0x800123 <btn_pressed>
+            lcd_gotoxy(8, 0);
+ 514:	60 e0       	ldi	r22, 0x00	; 0
+ 516:	88 e0       	ldi	r24, 0x08	; 8
+ 518:	0e 94 a2 00 	call	0x144	; 0x144 <lcd_gotoxy>
+            lcd_putc('1');
+ 51c:	81 e3       	ldi	r24, 0x31	; 49
+ 51e:	0e 94 b0 00 	call	0x160	; 0x160 <lcd_putc>
+            lcd_putc(0);
+ 522:	80 e0       	ldi	r24, 0x00	; 0
+ 524:	0e 94 b0 00 	call	0x160	; 0x160 <lcd_putc>
+            uart_puts("Sine");
+ 528:	81 e4       	ldi	r24, 0x41	; 65
+ 52a:	91 e0       	ldi	r25, 0x01	; 1
+ 52c:	0e 94 72 04 	call	0x8e4	; 0x8e4 <uart_puts>
+ 530:	ad c0       	rjmp	.+346    	; 0x68c <__vector_21+0x1e4>
+        }
+        else if (ADC_value > 97 && ADC_value < 107)
+ 532:	80 91 24 01 	lds	r24, 0x0124	; 0x800124 <ADC_value>
+ 536:	90 91 25 01 	lds	r25, 0x0125	; 0x800125 <ADC_value+0x1>
+ 53a:	82 36       	cpi	r24, 0x62	; 98
+ 53c:	91 05       	cpc	r25, r1
+ 53e:	c8 f0       	brcs	.+50     	; 0x572 <__vector_21+0xca>
+ 540:	80 91 24 01 	lds	r24, 0x0124	; 0x800124 <ADC_value>
+ 544:	90 91 25 01 	lds	r25, 0x0125	; 0x800125 <ADC_value+0x1>
+ 548:	8b 36       	cpi	r24, 0x6B	; 107
+ 54a:	91 05       	cpc	r25, r1
+ 54c:	90 f4       	brcc	.+36     	; 0x572 <__vector_21+0xca>
+        {
+            btn_pressed = 2;
+ 54e:	82 e0       	ldi	r24, 0x02	; 2
+ 550:	80 93 23 01 	sts	0x0123, r24	; 0x800123 <btn_pressed>
+            lcd_gotoxy(8, 0);
+ 554:	60 e0       	ldi	r22, 0x00	; 0
+ 556:	88 e0       	ldi	r24, 0x08	; 8
+ 558:	0e 94 a2 00 	call	0x144	; 0x144 <lcd_gotoxy>
+            lcd_putc('2');
+ 55c:	82 e3       	ldi	r24, 0x32	; 50
+ 55e:	0e 94 b0 00 	call	0x160	; 0x160 <lcd_putc>
+            lcd_putc(1);
+ 562:	81 e0       	ldi	r24, 0x01	; 1
+ 564:	0e 94 b0 00 	call	0x160	; 0x160 <lcd_putc>
+            uart_puts("Square");
+ 568:	86 e4       	ldi	r24, 0x46	; 70
+ 56a:	91 e0       	ldi	r25, 0x01	; 1
+ 56c:	0e 94 72 04 	call	0x8e4	; 0x8e4 <uart_puts>
+ 570:	8d c0       	rjmp	.+282    	; 0x68c <__vector_21+0x1e4>
+        }
+        else if (ADC_value > 180 && ADC_value < 190)
+ 572:	80 91 24 01 	lds	r24, 0x0124	; 0x800124 <ADC_value>
+ 576:	90 91 25 01 	lds	r25, 0x0125	; 0x800125 <ADC_value+0x1>
+ 57a:	85 3b       	cpi	r24, 0xB5	; 181
+ 57c:	91 05       	cpc	r25, r1
+ 57e:	c8 f0       	brcs	.+50     	; 0x5b2 <__vector_21+0x10a>
+ 580:	80 91 24 01 	lds	r24, 0x0124	; 0x800124 <ADC_value>
+ 584:	90 91 25 01 	lds	r25, 0x0125	; 0x800125 <ADC_value+0x1>
+ 588:	8e 3b       	cpi	r24, 0xBE	; 190
+ 58a:	91 05       	cpc	r25, r1
+ 58c:	90 f4       	brcc	.+36     	; 0x5b2 <__vector_21+0x10a>
+        {
+            btn_pressed = 3;
+ 58e:	83 e0       	ldi	r24, 0x03	; 3
+ 590:	80 93 23 01 	sts	0x0123, r24	; 0x800123 <btn_pressed>
+            lcd_gotoxy(8, 0);
+ 594:	60 e0       	ldi	r22, 0x00	; 0
+ 596:	88 e0       	ldi	r24, 0x08	; 8
+ 598:	0e 94 a2 00 	call	0x144	; 0x144 <lcd_gotoxy>
+            lcd_putc('3');
+ 59c:	83 e3       	ldi	r24, 0x33	; 51
+ 59e:	0e 94 b0 00 	call	0x160	; 0x160 <lcd_putc>
+            lcd_putc(2);
+ 5a2:	82 e0       	ldi	r24, 0x02	; 2
+ 5a4:	0e 94 b0 00 	call	0x160	; 0x160 <lcd_putc>
+            uart_puts("Triangle");
+ 5a8:	8d e4       	ldi	r24, 0x4D	; 77
+ 5aa:	91 e0       	ldi	r25, 0x01	; 1
+ 5ac:	0e 94 72 04 	call	0x8e4	; 0x8e4 <uart_puts>
+ 5b0:	6d c0       	rjmp	.+218    	; 0x68c <__vector_21+0x1e4>
+        }
+        else if (ADC_value > 250 && ADC_value < 260)
+ 5b2:	80 91 24 01 	lds	r24, 0x0124	; 0x800124 <ADC_value>
+ 5b6:	90 91 25 01 	lds	r25, 0x0125	; 0x800125 <ADC_value+0x1>
+ 5ba:	8b 3f       	cpi	r24, 0xFB	; 251
+ 5bc:	91 05       	cpc	r25, r1
+ 5be:	c8 f0       	brcs	.+50     	; 0x5f2 <__vector_21+0x14a>
+ 5c0:	80 91 24 01 	lds	r24, 0x0124	; 0x800124 <ADC_value>
+ 5c4:	90 91 25 01 	lds	r25, 0x0125	; 0x800125 <ADC_value+0x1>
+ 5c8:	84 30       	cpi	r24, 0x04	; 4
+ 5ca:	91 40       	sbci	r25, 0x01	; 1
+ 5cc:	90 f4       	brcc	.+36     	; 0x5f2 <__vector_21+0x14a>
+        {
+            btn_pressed = 4;
+ 5ce:	84 e0       	ldi	r24, 0x04	; 4
+ 5d0:	80 93 23 01 	sts	0x0123, r24	; 0x800123 <btn_pressed>
+            lcd_gotoxy(8, 0);
+ 5d4:	60 e0       	ldi	r22, 0x00	; 0
+ 5d6:	88 e0       	ldi	r24, 0x08	; 8
+ 5d8:	0e 94 a2 00 	call	0x144	; 0x144 <lcd_gotoxy>
+            lcd_putc('4');
+ 5dc:	84 e3       	ldi	r24, 0x34	; 52
+ 5de:	0e 94 b0 00 	call	0x160	; 0x160 <lcd_putc>
+            lcd_putc(3);
+ 5e2:	83 e0       	ldi	r24, 0x03	; 3
+ 5e4:	0e 94 b0 00 	call	0x160	; 0x160 <lcd_putc>
+            uart_puts("Ramp");
+ 5e8:	86 e5       	ldi	r24, 0x56	; 86
+ 5ea:	91 e0       	ldi	r25, 0x01	; 1
+ 5ec:	0e 94 72 04 	call	0x8e4	; 0x8e4 <uart_puts>
+ 5f0:	4d c0       	rjmp	.+154    	; 0x68c <__vector_21+0x1e4>
+        }
+        else if (ADC_value > 506 && ADC_value < 516)
+ 5f2:	80 91 24 01 	lds	r24, 0x0124	; 0x800124 <ADC_value>
+ 5f6:	90 91 25 01 	lds	r25, 0x0125	; 0x800125 <ADC_value+0x1>
+ 5fa:	8b 3f       	cpi	r24, 0xFB	; 251
+ 5fc:	91 40       	sbci	r25, 0x01	; 1
+ 5fe:	78 f0       	brcs	.+30     	; 0x61e <__vector_21+0x176>
+ 600:	80 91 24 01 	lds	r24, 0x0124	; 0x800124 <ADC_value>
+ 604:	90 91 25 01 	lds	r25, 0x0125	; 0x800125 <ADC_value+0x1>
+ 608:	84 30       	cpi	r24, 0x04	; 4
+ 60a:	92 40       	sbci	r25, 0x02	; 2
+ 60c:	40 f4       	brcc	.+16     	; 0x61e <__vector_21+0x176>
+        {
+            //lcd_putc('*');
+            btn_pressed_next = 10;
+ 60e:	8a e0       	ldi	r24, 0x0A	; 10
+ 610:	80 93 22 01 	sts	0x0122, r24	; 0x800122 <btn_pressed_next>
+            uart_puts("f--");
+ 614:	8b e5       	ldi	r24, 0x5B	; 91
+ 616:	91 e0       	ldi	r25, 0x01	; 1
+ 618:	0e 94 72 04 	call	0x8e4	; 0x8e4 <uart_puts>
+ 61c:	37 c0       	rjmp	.+110    	; 0x68c <__vector_21+0x1e4>
+            
+        }
+        else if (ADC_value > 533 && ADC_value < 543)
+ 61e:	80 91 24 01 	lds	r24, 0x0124	; 0x800124 <ADC_value>
+ 622:	90 91 25 01 	lds	r25, 0x0125	; 0x800125 <ADC_value+0x1>
+ 626:	86 31       	cpi	r24, 0x16	; 22
+ 628:	92 40       	sbci	r25, 0x02	; 2
+ 62a:	78 f0       	brcs	.+30     	; 0x64a <__vector_21+0x1a2>
+ 62c:	80 91 24 01 	lds	r24, 0x0124	; 0x800124 <ADC_value>
+ 630:	90 91 25 01 	lds	r25, 0x0125	; 0x800125 <ADC_value+0x1>
+ 634:	8f 31       	cpi	r24, 0x1F	; 31
+ 636:	92 40       	sbci	r25, 0x02	; 2
+ 638:	40 f4       	brcc	.+16     	; 0x64a <__vector_21+0x1a2>
+        {
+            //lcd_putc('0');
+            btn_pressed = 11;
+ 63a:	8b e0       	ldi	r24, 0x0B	; 11
+ 63c:	80 93 23 01 	sts	0x0123, r24	; 0x800123 <btn_pressed>
+            uart_puts("Output off");
+ 640:	8f e5       	ldi	r24, 0x5F	; 95
+ 642:	91 e0       	ldi	r25, 0x01	; 1
+ 644:	0e 94 72 04 	call	0x8e4	; 0x8e4 <uart_puts>
+ 648:	21 c0       	rjmp	.+66     	; 0x68c <__vector_21+0x1e4>
+        }
+        else if (ADC_value > 557 && ADC_value < 567)
+ 64a:	80 91 24 01 	lds	r24, 0x0124	; 0x800124 <ADC_value>
+ 64e:	90 91 25 01 	lds	r25, 0x0125	; 0x800125 <ADC_value+0x1>
+ 652:	8e 32       	cpi	r24, 0x2E	; 46
+ 654:	92 40       	sbci	r25, 0x02	; 2
+ 656:	78 f0       	brcs	.+30     	; 0x676 <__vector_21+0x1ce>
+ 658:	80 91 24 01 	lds	r24, 0x0124	; 0x800124 <ADC_value>
+ 65c:	90 91 25 01 	lds	r25, 0x0125	; 0x800125 <ADC_value+0x1>
+ 660:	87 33       	cpi	r24, 0x37	; 55
+ 662:	92 40       	sbci	r25, 0x02	; 2
+ 664:	40 f4       	brcc	.+16     	; 0x676 <__vector_21+0x1ce>
+        {
+            //lcd_putc('#');
+            btn_pressed_next = 12;
+ 666:	8c e0       	ldi	r24, 0x0C	; 12
+ 668:	80 93 22 01 	sts	0x0122, r24	; 0x800122 <btn_pressed_next>
+            uart_puts("f++");
+ 66c:	8a e6       	ldi	r24, 0x6A	; 106
+ 66e:	91 e0       	ldi	r25, 0x01	; 1
+ 670:	0e 94 72 04 	call	0x8e4	; 0x8e4 <uart_puts>
+ 674:	0b c0       	rjmp	.+22     	; 0x68c <__vector_21+0x1e4>
+        }
+        else if (ADC_value > 1017)
+ 676:	80 91 24 01 	lds	r24, 0x0124	; 0x800124 <ADC_value>
+ 67a:	90 91 25 01 	lds	r25, 0x0125	; 0x800125 <ADC_value+0x1>
+ 67e:	8a 3f       	cpi	r24, 0xFA	; 250
+ 680:	93 40       	sbci	r25, 0x03	; 3
+ 682:	20 f0       	brcs	.+8      	; 0x68c <__vector_21+0x1e4>
+        {
+            uart_puts("\r\n");
+ 684:	8e e6       	ldi	r24, 0x6E	; 110
+ 686:	91 e0       	ldi	r25, 0x01	; 1
+ 688:	0e 94 72 04 	call	0x8e4	; 0x8e4 <uart_puts>
+        }
+        
+    }
+
+    if (ADC_value > 1017)
+ 68c:	80 91 24 01 	lds	r24, 0x0124	; 0x800124 <ADC_value>
+ 690:	90 91 25 01 	lds	r25, 0x0125	; 0x800125 <ADC_value+0x1>
+ 694:	8a 3f       	cpi	r24, 0xFA	; 250
+ 696:	93 40       	sbci	r25, 0x03	; 3
+ 698:	28 f0       	brcs	.+10     	; 0x6a4 <__vector_21+0x1fc>
+    {
+        freq_control++;
+ 69a:	80 91 af 02 	lds	r24, 0x02AF	; 0x8002af <freq_control>
+ 69e:	8f 5f       	subi	r24, 0xFF	; 255
+ 6a0:	80 93 af 02 	sts	0x02AF, r24	; 0x8002af <freq_control>
+    }
+
+    if (btn_pressed != 11 && control == 0)
+ 6a4:	80 91 23 01 	lds	r24, 0x0123	; 0x800123 <btn_pressed>
+ 6a8:	8b 30       	cpi	r24, 0x0B	; 11
+ 6aa:	b1 f0       	breq	.+44     	; 0x6d8 <__vector_21+0x230>
+ 6ac:	80 91 ad 02 	lds	r24, 0x02AD	; 0x8002ad <control>
+ 6b0:	81 11       	cpse	r24, r1
+ 6b2:	12 c0       	rjmp	.+36     	; 0x6d8 <__vector_21+0x230>
+    {
+        lcd_gotoxy(0, 0);
+ 6b4:	60 e0       	ldi	r22, 0x00	; 0
+ 6b6:	0e 94 a2 00 	call	0x144	; 0x144 <lcd_gotoxy>
+        lcd_puts("Pressed:   Exit0");
+ 6ba:	81 e7       	ldi	r24, 0x71	; 113
+ 6bc:	91 e0       	ldi	r25, 0x01	; 1
+ 6be:	0e 94 b4 00 	call	0x168	; 0x168 <lcd_puts>
+        lcd_gotoxy(0, 1);
+ 6c2:	61 e0       	ldi	r22, 0x01	; 1
+ 6c4:	80 e0       	ldi	r24, 0x00	; 0
+ 6c6:	0e 94 a2 00 	call	0x144	; 0x144 <lcd_gotoxy>
+        lcd_puts("*f-- #f++     Hz");
+ 6ca:	82 e8       	ldi	r24, 0x82	; 130
+ 6cc:	91 e0       	ldi	r25, 0x01	; 1
+ 6ce:	0e 94 b4 00 	call	0x168	; 0x168 <lcd_puts>
+        control = 1;
+ 6d2:	81 e0       	ldi	r24, 0x01	; 1
+ 6d4:	80 93 ad 02 	sts	0x02AD, r24	; 0x8002ad <control>
+    }
+    //*
+    if (btn_pressed_next == 10)
+ 6d8:	80 91 22 01 	lds	r24, 0x0122	; 0x800122 <btn_pressed_next>
+ 6dc:	8a 30       	cpi	r24, 0x0A	; 10
+ 6de:	a9 f4       	brne	.+42     	; 0x70a <__vector_21+0x262>
+    {
+        btn_pressed_next = btn_pressed;
+ 6e0:	80 91 23 01 	lds	r24, 0x0123	; 0x800123 <btn_pressed>
+ 6e4:	80 93 22 01 	sts	0x0122, r24	; 0x800122 <btn_pressed_next>
+        if (freq_next == freq && freq > 1)
+ 6e8:	90 91 20 01 	lds	r25, 0x0120	; 0x800120 <freq_next>
+ 6ec:	80 91 21 01 	lds	r24, 0x0121	; 0x800121 <freq>
+ 6f0:	98 13       	cpse	r25, r24
+ 6f2:	57 c0       	rjmp	.+174    	; 0x7a2 <__vector_21+0x2fa>
+ 6f4:	80 91 21 01 	lds	r24, 0x0121	; 0x800121 <freq>
+ 6f8:	82 30       	cpi	r24, 0x02	; 2
+ 6fa:	08 f4       	brcc	.+2      	; 0x6fe <__vector_21+0x256>
+ 6fc:	52 c0       	rjmp	.+164    	; 0x7a2 <__vector_21+0x2fa>
+        {
+            freq_next = freq - 1;
+ 6fe:	80 91 21 01 	lds	r24, 0x0121	; 0x800121 <freq>
+ 702:	81 50       	subi	r24, 0x01	; 1
+ 704:	80 93 20 01 	sts	0x0120, r24	; 0x800120 <freq_next>
+ 708:	4c c0       	rjmp	.+152    	; 0x7a2 <__vector_21+0x2fa>
+        }
+    }
+    // 0 pressed
+    else if (btn_pressed == 11)
+ 70a:	80 91 23 01 	lds	r24, 0x0123	; 0x800123 <btn_pressed>
+ 70e:	8b 30       	cpi	r24, 0x0B	; 11
+ 710:	a9 f5       	brne	.+106    	; 0x77c <__vector_21+0x2d4>
+    {
+        lcd_gotoxy(0, 0);
+ 712:	60 e0       	ldi	r22, 0x00	; 0
+ 714:	80 e0       	ldi	r24, 0x00	; 0
+ 716:	0e 94 a2 00 	call	0x144	; 0x144 <lcd_gotoxy>
+        lcd_puts(" Choose signal: ");
+ 71a:	83 e9       	ldi	r24, 0x93	; 147
+ 71c:	91 e0       	ldi	r25, 0x01	; 1
+ 71e:	0e 94 b4 00 	call	0x168	; 0x168 <lcd_puts>
+        lcd_gotoxy(0, 1);
+ 722:	61 e0       	ldi	r22, 0x01	; 1
+ 724:	80 e0       	ldi	r24, 0x00	; 0
+ 726:	0e 94 a2 00 	call	0x144	; 0x144 <lcd_gotoxy>
+        lcd_puts(" 1");
+ 72a:	84 ea       	ldi	r24, 0xA4	; 164
+ 72c:	91 e0       	ldi	r25, 0x01	; 1
+ 72e:	0e 94 b4 00 	call	0x168	; 0x168 <lcd_puts>
+        lcd_putc(0);
+ 732:	80 e0       	ldi	r24, 0x00	; 0
+ 734:	0e 94 b0 00 	call	0x160	; 0x160 <lcd_putc>
+        lcd_puts("  2");
+ 738:	85 e3       	ldi	r24, 0x35	; 53
+ 73a:	91 e0       	ldi	r25, 0x01	; 1
+ 73c:	0e 94 b4 00 	call	0x168	; 0x168 <lcd_puts>
+        lcd_putc(1);
+ 740:	81 e0       	ldi	r24, 0x01	; 1
+ 742:	0e 94 b0 00 	call	0x160	; 0x160 <lcd_putc>
+        lcd_puts("  3");
+ 746:	89 e3       	ldi	r24, 0x39	; 57
+ 748:	91 e0       	ldi	r25, 0x01	; 1
+ 74a:	0e 94 b4 00 	call	0x168	; 0x168 <lcd_puts>
+        lcd_putc(2);
+ 74e:	82 e0       	ldi	r24, 0x02	; 2
+ 750:	0e 94 b0 00 	call	0x160	; 0x160 <lcd_putc>
+        lcd_puts("  4");
+ 754:	8d e3       	ldi	r24, 0x3D	; 61
+ 756:	91 e0       	ldi	r25, 0x01	; 1
+ 758:	0e 94 b4 00 	call	0x168	; 0x168 <lcd_puts>
+        lcd_putc(3);
+ 75c:	83 e0       	ldi	r24, 0x03	; 3
+ 75e:	0e 94 b0 00 	call	0x160	; 0x160 <lcd_putc>
+        lcd_putc(' ');
+ 762:	80 e2       	ldi	r24, 0x20	; 32
+ 764:	0e 94 b0 00 	call	0x160	; 0x160 <lcd_putc>
+    
         value = 0;
- 636:	10 92 7f 02 	sts	0x027F, r1	; 0x80027f <value.2122>
+ 768:	10 92 ae 02 	sts	0x02AE, r1	; 0x8002ae <value>
         control = 0;
- 63a:	10 92 7e 02 	sts	0x027E, r1	; 0x80027e <control.2127>
+ 76c:	10 92 ad 02 	sts	0x02AD, r1	; 0x8002ad <control>
         freq_next = 1;
- 63e:	81 e0       	ldi	r24, 0x01	; 1
- 640:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__data_start>
+ 770:	81 e0       	ldi	r24, 0x01	; 1
+ 772:	80 93 20 01 	sts	0x0120, r24	; 0x800120 <freq_next>
         freq = 1;
- 644:	80 93 01 01 	sts	0x0101, r24	; 0x800101 <freq.2124>
+ 776:	80 93 21 01 	sts	0x0121, r24	; 0x800121 <freq>
+ 77a:	13 c0       	rjmp	.+38     	; 0x7a2 <__vector_21+0x2fa>
+        
     } 
     
     //#
-    if (btn_pressed_next == 12)
- 648:	80 91 02 01 	lds	r24, 0x0102	; 0x800102 <btn_pressed_next.2129>
- 64c:	8c 30       	cpi	r24, 0x0C	; 12
- 64e:	69 f4       	brne	.+26     	; 0x66a <__LOCK_REGION_LENGTH__+0x26a>
+    else if (btn_pressed_next == 12)
+ 77c:	80 91 22 01 	lds	r24, 0x0122	; 0x800122 <btn_pressed_next>
+ 780:	8c 30       	cpi	r24, 0x0C	; 12
+ 782:	79 f4       	brne	.+30     	; 0x7a2 <__vector_21+0x2fa>
     {
         btn_pressed_next = btn_pressed;
- 650:	80 91 03 01 	lds	r24, 0x0103	; 0x800103 <btn_pressed.2128>
- 654:	80 93 02 01 	sts	0x0102, r24	; 0x800102 <btn_pressed_next.2129>
+ 784:	80 91 23 01 	lds	r24, 0x0123	; 0x800123 <btn_pressed>
+ 788:	80 93 22 01 	sts	0x0122, r24	; 0x800122 <btn_pressed_next>
         if (freq_next == freq)
- 658:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__data_start>
- 65c:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <freq.2124>
- 660:	89 13       	cpse	r24, r25
- 662:	03 c0       	rjmp	.+6      	; 0x66a <__LOCK_REGION_LENGTH__+0x26a>
+ 78c:	90 91 20 01 	lds	r25, 0x0120	; 0x800120 <freq_next>
+ 790:	80 91 21 01 	lds	r24, 0x0121	; 0x800121 <freq>
+ 794:	98 13       	cpse	r25, r24
+ 796:	05 c0       	rjmp	.+10     	; 0x7a2 <__vector_21+0x2fa>
         {
             freq_next = freq + 1;
- 664:	8f 5f       	subi	r24, 0xFF	; 255
- 666:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__data_start>
-        }                  
+ 798:	80 91 21 01 	lds	r24, 0x0121	; 0x800121 <freq>
+ 79c:	8f 5f       	subi	r24, 0xFF	; 255
+ 79e:	80 93 20 01 	sts	0x0120, r24	; 0x800120 <freq_next>
+        }
     }
-     
-    if (freq_control >= 100)
- 66a:	80 91 7d 02 	lds	r24, 0x027D	; 0x80027d <freq_control.2126>
- 66e:	84 36       	cpi	r24, 0x64	; 100
- 670:	30 f0       	brcs	.+12     	; 0x67e <__LOCK_REGION_LENGTH__+0x27e>
+    
+    if (freq_control >= 10)
+ 7a2:	80 91 af 02 	lds	r24, 0x02AF	; 0x8002af <freq_control>
+ 7a6:	8a 30       	cpi	r24, 0x0A	; 10
+ 7a8:	30 f0       	brcs	.+12     	; 0x7b6 <__vector_21+0x30e>
     {
         freq = freq_next;
- 672:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__data_start>
- 676:	80 93 01 01 	sts	0x0101, r24	; 0x800101 <freq.2124>
+ 7aa:	80 91 20 01 	lds	r24, 0x0120	; 0x800120 <freq_next>
+ 7ae:	80 93 21 01 	sts	0x0121, r24	; 0x800121 <freq>
         freq_control = 0;
- 67a:	10 92 7d 02 	sts	0x027D, r1	; 0x80027d <freq_control.2126>
+ 7b2:	10 92 af 02 	sts	0x02AF, r1	; 0x8002af <freq_control>
     }
-     
-    if (uart_counter == 10)
- 67e:	80 91 78 02 	lds	r24, 0x0278	; 0x800278 <__data_end>
- 682:	90 91 79 02 	lds	r25, 0x0279	; 0x800279 <__data_end+0x1>
- 686:	0a 97       	sbiw	r24, 0x0a	; 10
- 688:	21 f4       	brne	.+8      	; 0x692 <__LOCK_REGION_LENGTH__+0x292>
-        //itoa(btn_pressed, lcd_string, 10);    // Convert to string
-        //uart_putc('a');
-        //uart_puts(lcd_string);
-        //uart_puts("\r\n");
-        
-        uart_counter = 0;
- 68a:	10 92 79 02 	sts	0x0279, r1	; 0x800279 <__data_end+0x1>
- 68e:	10 92 78 02 	sts	0x0278, r1	; 0x800278 <__data_end>
-    }
-    uart_counter++; 
- 692:	80 91 78 02 	lds	r24, 0x0278	; 0x800278 <__data_end>
- 696:	90 91 79 02 	lds	r25, 0x0279	; 0x800279 <__data_end+0x1>
- 69a:	01 96       	adiw	r24, 0x01	; 1
- 69c:	90 93 79 02 	sts	0x0279, r25	; 0x800279 <__data_end+0x1>
- 6a0:	80 93 78 02 	sts	0x0278, r24	; 0x800278 <__data_end>
-         
-    number_of_overflows += freq;   
- 6a4:	20 91 01 01 	lds	r18, 0x0101	; 0x800101 <freq.2124>
- 6a8:	80 91 7a 02 	lds	r24, 0x027A	; 0x80027a <number_of_overflows.2121>
- 6ac:	90 91 7b 02 	lds	r25, 0x027B	; 0x80027b <number_of_overflows.2121+0x1>
- 6b0:	82 0f       	add	r24, r18
- 6b2:	91 1d       	adc	r25, r1
- 6b4:	90 93 7b 02 	sts	0x027B, r25	; 0x80027b <number_of_overflows.2121+0x1>
- 6b8:	80 93 7a 02 	sts	0x027A, r24	; 0x80027a <number_of_overflows.2121>
-    
-    
-    
-    
-    
-}
- 6bc:	0f c0       	rjmp	.+30     	; 0x6dc <__LOCK_REGION_LENGTH__+0x2dc>
-    {
-        value += freq;
-    }
-    
-    //*
-    if (btn_pressed_next == 10)
- 6be:	90 91 02 01 	lds	r25, 0x0102	; 0x800102 <btn_pressed_next.2129>
- 6c2:	9a 30       	cpi	r25, 0x0A	; 10
- 6c4:	09 f6       	brne	.-126    	; 0x648 <__LOCK_REGION_LENGTH__+0x248>
- 6c6:	7d cf       	rjmp	.-262    	; 0x5c2 <__LOCK_REGION_LENGTH__+0x1c2>
-    {
-        btn_pressed_next = btn_pressed;
- 6c8:	94 e0       	ldi	r25, 0x04	; 4
- 6ca:	90 93 02 01 	sts	0x0102, r25	; 0x800102 <btn_pressed_next.2129>
-        if (freq_next == freq && freq > 1)
- 6ce:	90 91 00 01 	lds	r25, 0x0100	; 0x800100 <__data_start>
- 6d2:	20 91 01 01 	lds	r18, 0x0101	; 0x800101 <freq.2124>
- 6d6:	92 13       	cpse	r25, r18
- 6d8:	b7 cf       	rjmp	.-146    	; 0x648 <__LOCK_REGION_LENGTH__+0x248>
- 6da:	7b cf       	rjmp	.-266    	; 0x5d2 <__LOCK_REGION_LENGTH__+0x1d2>
-    
-    
-    
-    
-    
-}
- 6dc:	ff 91       	pop	r31
- 6de:	ef 91       	pop	r30
- 6e0:	bf 91       	pop	r27
- 6e2:	af 91       	pop	r26
- 6e4:	9f 91       	pop	r25
- 6e6:	8f 91       	pop	r24
- 6e8:	7f 91       	pop	r23
- 6ea:	6f 91       	pop	r22
- 6ec:	5f 91       	pop	r21
- 6ee:	4f 91       	pop	r20
- 6f0:	3f 91       	pop	r19
- 6f2:	2f 91       	pop	r18
- 6f4:	0f 90       	pop	r0
- 6f6:	0f be       	out	0x3f, r0	; 63
- 6f8:	0f 90       	pop	r0
- 6fa:	1f 90       	pop	r1
- 6fc:	18 95       	reti
+ 7b6:	ff 91       	pop	r31
+ 7b8:	ef 91       	pop	r30
+ 7ba:	bf 91       	pop	r27
+ 7bc:	af 91       	pop	r26
+ 7be:	9f 91       	pop	r25
+ 7c0:	8f 91       	pop	r24
+ 7c2:	7f 91       	pop	r23
+ 7c4:	6f 91       	pop	r22
+ 7c6:	5f 91       	pop	r21
+ 7c8:	4f 91       	pop	r20
+ 7ca:	3f 91       	pop	r19
+ 7cc:	2f 91       	pop	r18
+ 7ce:	0f 90       	pop	r0
+ 7d0:	0f be       	out	0x3f, r0	; 63
+ 7d2:	0f 90       	pop	r0
+ 7d4:	1f 90       	pop	r1
+ 7d6:	18 95       	reti
 
-000006fe <__vector_18>:
+000007d8 <__vector_18>:
+    /* store buffer index */
+    UART_RxTail = tmptail;
 
-/*************************************************************************
- * Function: UART Receive Complete interrupt
- * Purpose:  called when the UART has received a character
- **************************************************************************/
+    UART_LastRxError = 0;
+    return (lastRxError << 8) + data;
+}/* uart_getc */
+ 7d8:	1f 92       	push	r1
+ 7da:	0f 92       	push	r0
+ 7dc:	0f b6       	in	r0, 0x3f	; 63
+ 7de:	0f 92       	push	r0
+ 7e0:	11 24       	eor	r1, r1
+ 7e2:	2f 93       	push	r18
+ 7e4:	8f 93       	push	r24
+ 7e6:	9f 93       	push	r25
+ 7e8:	ef 93       	push	r30
+ 7ea:	ff 93       	push	r31
+ 7ec:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__DATA_REGION_ORIGIN__+0x60>
+ 7f0:	20 91 c6 00 	lds	r18, 0x00C6	; 0x8000c6 <__DATA_REGION_ORIGIN__+0x66>
+ 7f4:	8c 71       	andi	r24, 0x1C	; 28
+ 7f6:	e0 91 b2 02 	lds	r30, 0x02B2	; 0x8002b2 <UART_RxHead>
+ 7fa:	ef 5f       	subi	r30, 0xFF	; 255
+ 7fc:	ef 73       	andi	r30, 0x3F	; 63
+ 7fe:	90 91 b1 02 	lds	r25, 0x02B1	; 0x8002b1 <UART_RxTail>
+ 802:	e9 17       	cp	r30, r25
+ 804:	39 f0       	breq	.+14     	; 0x814 <__vector_18+0x3c>
+ 806:	e0 93 b2 02 	sts	0x02B2, r30	; 0x8002b2 <UART_RxHead>
+ 80a:	f0 e0       	ldi	r31, 0x00	; 0
+ 80c:	eb 54       	subi	r30, 0x4B	; 75
+ 80e:	fd 4f       	sbci	r31, 0xFD	; 253
+ 810:	20 83       	st	Z, r18
+ 812:	01 c0       	rjmp	.+2      	; 0x816 <__vector_18+0x3e>
+ 814:	82 e0       	ldi	r24, 0x02	; 2
+ 816:	90 91 b0 02 	lds	r25, 0x02B0	; 0x8002b0 <UART_LastRxError>
+ 81a:	89 2b       	or	r24, r25
+ 81c:	80 93 b0 02 	sts	0x02B0, r24	; 0x8002b0 <UART_LastRxError>
+ 820:	ff 91       	pop	r31
+ 822:	ef 91       	pop	r30
+ 824:	9f 91       	pop	r25
+ 826:	8f 91       	pop	r24
+ 828:	2f 91       	pop	r18
+ 82a:	0f 90       	pop	r0
+ 82c:	0f be       	out	0x3f, r0	; 63
+ 82e:	0f 90       	pop	r0
+ 830:	1f 90       	pop	r1
+ 832:	18 95       	reti
+
+00000834 <__vector_19>:
+ 834:	1f 92       	push	r1
+ 836:	0f 92       	push	r0
+ 838:	0f b6       	in	r0, 0x3f	; 63
+ 83a:	0f 92       	push	r0
+ 83c:	11 24       	eor	r1, r1
+ 83e:	8f 93       	push	r24
+ 840:	9f 93       	push	r25
+ 842:	ef 93       	push	r30
+ 844:	ff 93       	push	r31
+ 846:	90 91 b4 02 	lds	r25, 0x02B4	; 0x8002b4 <UART_TxHead>
+ 84a:	80 91 b3 02 	lds	r24, 0x02B3	; 0x8002b3 <UART_TxTail>
+ 84e:	98 17       	cp	r25, r24
+ 850:	69 f0       	breq	.+26     	; 0x86c <__vector_19+0x38>
+ 852:	e0 91 b3 02 	lds	r30, 0x02B3	; 0x8002b3 <UART_TxTail>
+ 856:	ef 5f       	subi	r30, 0xFF	; 255
+ 858:	ef 73       	andi	r30, 0x3F	; 63
+ 85a:	e0 93 b3 02 	sts	0x02B3, r30	; 0x8002b3 <UART_TxTail>
+ 85e:	f0 e0       	ldi	r31, 0x00	; 0
+ 860:	eb 50       	subi	r30, 0x0B	; 11
+ 862:	fd 4f       	sbci	r31, 0xFD	; 253
+ 864:	80 81       	ld	r24, Z
+ 866:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__DATA_REGION_ORIGIN__+0x66>
+ 86a:	05 c0       	rjmp	.+10     	; 0x876 <__vector_19+0x42>
+ 86c:	e1 ec       	ldi	r30, 0xC1	; 193
+ 86e:	f0 e0       	ldi	r31, 0x00	; 0
+ 870:	80 81       	ld	r24, Z
+ 872:	8f 7d       	andi	r24, 0xDF	; 223
+ 874:	80 83       	st	Z, r24
+ 876:	ff 91       	pop	r31
+ 878:	ef 91       	pop	r30
+ 87a:	9f 91       	pop	r25
+ 87c:	8f 91       	pop	r24
+ 87e:	0f 90       	pop	r0
+ 880:	0f be       	out	0x3f, r0	; 63
+ 882:	0f 90       	pop	r0
+ 884:	1f 90       	pop	r1
+ 886:	18 95       	reti
+
+00000888 <uart_init>:
+ 888:	10 92 b4 02 	sts	0x02B4, r1	; 0x8002b4 <UART_TxHead>
+ 88c:	10 92 b3 02 	sts	0x02B3, r1	; 0x8002b3 <UART_TxTail>
+ 890:	10 92 b2 02 	sts	0x02B2, r1	; 0x8002b2 <UART_RxHead>
+ 894:	10 92 b1 02 	sts	0x02B1, r1	; 0x8002b1 <UART_RxTail>
+ 898:	99 23       	and	r25, r25
+ 89a:	1c f4       	brge	.+6      	; 0x8a2 <uart_init+0x1a>
+ 89c:	22 e0       	ldi	r18, 0x02	; 2
+ 89e:	20 93 c0 00 	sts	0x00C0, r18	; 0x8000c0 <__DATA_REGION_ORIGIN__+0x60>
+ 8a2:	90 78       	andi	r25, 0x80	; 128
+ 8a4:	90 93 c5 00 	sts	0x00C5, r25	; 0x8000c5 <__DATA_REGION_ORIGIN__+0x65>
+ 8a8:	80 93 c4 00 	sts	0x00C4, r24	; 0x8000c4 <__DATA_REGION_ORIGIN__+0x64>
+ 8ac:	88 e9       	ldi	r24, 0x98	; 152
+ 8ae:	80 93 c1 00 	sts	0x00C1, r24	; 0x8000c1 <__DATA_REGION_ORIGIN__+0x61>
+ 8b2:	86 e0       	ldi	r24, 0x06	; 6
+ 8b4:	80 93 c2 00 	sts	0x00C2, r24	; 0x8000c2 <__DATA_REGION_ORIGIN__+0x62>
+ 8b8:	08 95       	ret
+
+000008ba <uart_putc>:
+void uart_putc(unsigned char data)
 {
- 6fe:	1f 92       	push	r1
- 700:	0f 92       	push	r0
- 702:	0f b6       	in	r0, 0x3f	; 63
- 704:	0f 92       	push	r0
- 706:	11 24       	eor	r1, r1
- 708:	2f 93       	push	r18
- 70a:	8f 93       	push	r24
- 70c:	9f 93       	push	r25
- 70e:	ef 93       	push	r30
- 710:	ff 93       	push	r31
-    unsigned char usr;
-    unsigned char lastRxError = 0;
+    unsigned char tmphead;
 
 
-    /* read UART status register and UART data register */
-    usr  = UART0_STATUS;
- 712:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__DATA_REGION_ORIGIN__+0x60>
-    data = UART0_DATA;
- 716:	20 91 c6 00 	lds	r18, 0x00C6	; 0x8000c6 <__DATA_REGION_ORIGIN__+0x66>
+    tmphead = (UART_TxHead + 1) & UART_TX_BUFFER_MASK;
+ 8ba:	20 91 b4 02 	lds	r18, 0x02B4	; 0x8002b4 <UART_TxHead>
+ 8be:	2f 5f       	subi	r18, 0xFF	; 255
+ 8c0:	2f 73       	andi	r18, 0x3F	; 63
 
-    /* get FEn (Frame Error) DORn (Data OverRun) UPEn (USART Parity Error) bits */
-    #if defined(FE) && defined(DOR) && defined(UPE)
-    lastRxError = usr & (_BV(FE) | _BV(DOR) | _BV(UPE) );
-    #elif defined(FE0) && defined(DOR0) && defined(UPE0)
-    lastRxError = usr & (_BV(FE0) | _BV(DOR0) | _BV(UPE0) );
- 71a:	8c 71       	andi	r24, 0x1C	; 28
-    #elif defined(FE) && defined(DOR)
-    lastRxError = usr & (_BV(FE) | _BV(DOR) );
-    #endif
-
-    /* calculate buffer index */
-    tmphead = ( UART_RxHead + 1) & UART_RX_BUFFER_MASK;
- 71c:	e0 91 82 02 	lds	r30, 0x0282	; 0x800282 <UART_RxHead>
- 720:	ef 5f       	subi	r30, 0xFF	; 255
- 722:	ef 73       	andi	r30, 0x3F	; 63
-
-    if (tmphead == UART_RxTail)
- 724:	90 91 81 02 	lds	r25, 0x0281	; 0x800281 <UART_RxTail>
- 728:	e9 17       	cp	r30, r25
- 72a:	39 f0       	breq	.+14     	; 0x73a <__vector_18+0x3c>
-        lastRxError = UART_BUFFER_OVERFLOW >> 8;
-    }
-    else
+    while (tmphead == UART_TxTail)
+ 8c2:	90 91 b3 02 	lds	r25, 0x02B3	; 0x8002b3 <UART_TxTail>
+ 8c6:	29 17       	cp	r18, r25
+ 8c8:	e1 f3       	breq	.-8      	; 0x8c2 <uart_putc+0x8>
     {
-        /* store new index */
-        UART_RxHead = tmphead;
- 72c:	e0 93 82 02 	sts	0x0282, r30	; 0x800282 <UART_RxHead>
-        /* store received data in buffer */
-        UART_RxBuf[tmphead] = data;
- 730:	f0 e0       	ldi	r31, 0x00	; 0
- 732:	eb 57       	subi	r30, 0x7B	; 123
- 734:	fd 4f       	sbci	r31, 0xFD	; 253
- 736:	20 83       	st	Z, r18
- 738:	01 c0       	rjmp	.+2      	; 0x73c <__vector_18+0x3e>
-    tmphead = ( UART_RxHead + 1) & UART_RX_BUFFER_MASK;
-
-    if (tmphead == UART_RxTail)
-    {
-        /* error: receive buffer overflow */
-        lastRxError = UART_BUFFER_OVERFLOW >> 8;
- 73a:	82 e0       	ldi	r24, 0x02	; 2
-        /* store new index */
-        UART_RxHead = tmphead;
-        /* store received data in buffer */
-        UART_RxBuf[tmphead] = data;
+        ;/* wait for free space in buffer */
     }
-    UART_LastRxError |= lastRxError;
- 73c:	90 91 80 02 	lds	r25, 0x0280	; 0x800280 <UART_LastRxError>
- 740:	89 2b       	or	r24, r25
- 742:	80 93 80 02 	sts	0x0280, r24	; 0x800280 <UART_LastRxError>
-}
- 746:	ff 91       	pop	r31
- 748:	ef 91       	pop	r30
- 74a:	9f 91       	pop	r25
- 74c:	8f 91       	pop	r24
- 74e:	2f 91       	pop	r18
- 750:	0f 90       	pop	r0
- 752:	0f be       	out	0x3f, r0	; 63
- 754:	0f 90       	pop	r0
- 756:	1f 90       	pop	r1
- 758:	18 95       	reti
 
-0000075a <__vector_19>:
+    UART_TxBuf[tmphead] = data;
+ 8ca:	e2 2f       	mov	r30, r18
+ 8cc:	f0 e0       	ldi	r31, 0x00	; 0
+ 8ce:	eb 50       	subi	r30, 0x0B	; 11
+ 8d0:	fd 4f       	sbci	r31, 0xFD	; 253
+ 8d2:	80 83       	st	Z, r24
+    UART_TxHead         = tmphead;
+ 8d4:	20 93 b4 02 	sts	0x02B4, r18	; 0x8002b4 <UART_TxHead>
 
-/*************************************************************************
- * Function: UART Data Register Empty interrupt
- * Purpose:  called when the UART is ready to transmit the next byte
- **************************************************************************/
-{
- 75a:	1f 92       	push	r1
- 75c:	0f 92       	push	r0
- 75e:	0f b6       	in	r0, 0x3f	; 63
- 760:	0f 92       	push	r0
- 762:	11 24       	eor	r1, r1
- 764:	8f 93       	push	r24
- 766:	9f 93       	push	r25
- 768:	ef 93       	push	r30
- 76a:	ff 93       	push	r31
-    unsigned char tmptail;
+    /* enable UDRE interrupt */
+    UART0_CONTROL |= _BV(UART0_UDRIE);
+ 8d8:	e1 ec       	ldi	r30, 0xC1	; 193
+ 8da:	f0 e0       	ldi	r31, 0x00	; 0
+ 8dc:	80 81       	ld	r24, Z
+ 8de:	80 62       	ori	r24, 0x20	; 32
+ 8e0:	80 83       	st	Z, r24
+ 8e2:	08 95       	ret
 
-
-    if (UART_TxHead != UART_TxTail)
- 76c:	90 91 84 02 	lds	r25, 0x0284	; 0x800284 <UART_TxHead>
- 770:	80 91 83 02 	lds	r24, 0x0283	; 0x800283 <UART_TxTail>
- 774:	98 17       	cp	r25, r24
- 776:	69 f0       	breq	.+26     	; 0x792 <__vector_19+0x38>
-    {
-        /* calculate and store new buffer index */
-        tmptail     = (UART_TxTail + 1) & UART_TX_BUFFER_MASK;
- 778:	e0 91 83 02 	lds	r30, 0x0283	; 0x800283 <UART_TxTail>
- 77c:	ef 5f       	subi	r30, 0xFF	; 255
- 77e:	ef 73       	andi	r30, 0x3F	; 63
-        UART_TxTail = tmptail;
- 780:	e0 93 83 02 	sts	0x0283, r30	; 0x800283 <UART_TxTail>
-        /* get one byte from buffer and write it to UART */
-        UART0_DATA = UART_TxBuf[tmptail]; /* start transmission */
- 784:	f0 e0       	ldi	r31, 0x00	; 0
- 786:	eb 53       	subi	r30, 0x3B	; 59
- 788:	fd 4f       	sbci	r31, 0xFD	; 253
- 78a:	80 81       	ld	r24, Z
- 78c:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__DATA_REGION_ORIGIN__+0x66>
- 790:	05 c0       	rjmp	.+10     	; 0x79c <__vector_19+0x42>
-    }
-    else
-    {
-        /* tx buffer empty, disable UDRE interrupt */
-        UART0_CONTROL &= ~_BV(UART0_UDRIE);
- 792:	e1 ec       	ldi	r30, 0xC1	; 193
- 794:	f0 e0       	ldi	r31, 0x00	; 0
- 796:	80 81       	ld	r24, Z
- 798:	8f 7d       	andi	r24, 0xDF	; 223
- 79a:	80 83       	st	Z, r24
-    }
-}
- 79c:	ff 91       	pop	r31
- 79e:	ef 91       	pop	r30
- 7a0:	9f 91       	pop	r25
- 7a2:	8f 91       	pop	r24
- 7a4:	0f 90       	pop	r0
- 7a6:	0f be       	out	0x3f, r0	; 63
- 7a8:	0f 90       	pop	r0
- 7aa:	1f 90       	pop	r1
- 7ac:	18 95       	reti
-
-000007ae <uart_init>:
- * Input:    baudrate using macro UART_BAUD_SELECT()
+000008e4 <uart_puts>:
+ * Purpose:  transmit string to UART
+ * Input:    string to be transmitted
  * Returns:  none
  **************************************************************************/
-void uart_init(unsigned int baudrate)
+void uart_puts(const char *s)
 {
-    UART_TxHead = 0;
- 7ae:	10 92 84 02 	sts	0x0284, r1	; 0x800284 <UART_TxHead>
-    UART_TxTail = 0;
- 7b2:	10 92 83 02 	sts	0x0283, r1	; 0x800283 <UART_TxTail>
-    UART_RxHead = 0;
- 7b6:	10 92 82 02 	sts	0x0282, r1	; 0x800282 <UART_RxHead>
-    UART_RxTail = 0;
- 7ba:	10 92 81 02 	sts	0x0281, r1	; 0x800281 <UART_RxTail>
-    #  endif
-    # endif
-    #endif /* ifdef UART_TEST */
+ 8e4:	cf 93       	push	r28
+ 8e6:	df 93       	push	r29
+ 8e8:	ec 01       	movw	r28, r24
+    while (*s)
+ 8ea:	88 81       	ld	r24, Y
+ 8ec:	88 23       	and	r24, r24
+ 8ee:	31 f0       	breq	.+12     	; 0x8fc <uart_puts+0x18>
+ 8f0:	21 96       	adiw	r28, 0x01	; 1
+        uart_putc(*s++);
+ 8f2:	0e 94 5d 04 	call	0x8ba	; 0x8ba <uart_putc>
+ * Input:    string to be transmitted
+ * Returns:  none
+ **************************************************************************/
+void uart_puts(const char *s)
+{
+    while (*s)
+ 8f6:	89 91       	ld	r24, Y+
+ 8f8:	81 11       	cpse	r24, r1
+ 8fa:	fb cf       	rjmp	.-10     	; 0x8f2 <uart_puts+0xe>
+        uart_putc(*s++);
+}/* uart_puts */
+ 8fc:	df 91       	pop	r29
+ 8fe:	cf 91       	pop	r28
+ 900:	08 95       	ret
 
-    /* Set baud rate */
-    if (baudrate & 0x8000)
- 7be:	99 23       	and	r25, r25
- 7c0:	1c f4       	brge	.+6      	; 0x7c8 <uart_init+0x1a>
-    {
-        #if UART0_BIT_U2X
-        UART0_STATUS = (1 << UART0_BIT_U2X); // Enable 2x speed
- 7c2:	22 e0       	ldi	r18, 0x02	; 2
- 7c4:	20 93 c0 00 	sts	0x00C0, r18	; 0x8000c0 <__DATA_REGION_ORIGIN__+0x60>
-        #endif
-    }
-    #if defined(UART0_UBRRH)
-    UART0_UBRRH = (unsigned char) ((baudrate >> 8) & 0x80);
- 7c8:	90 78       	andi	r25, 0x80	; 128
- 7ca:	90 93 c5 00 	sts	0x00C5, r25	; 0x8000c5 <__DATA_REGION_ORIGIN__+0x65>
-    #endif
-    UART0_UBRRL = (unsigned char) (baudrate & 0x00FF);
- 7ce:	80 93 c4 00 	sts	0x00C4, r24	; 0x8000c4 <__DATA_REGION_ORIGIN__+0x64>
+00000902 <_exit>:
+ 902:	f8 94       	cli
 
-    /* Enable USART receiver and transmitter and receive complete interrupt */
-    UART0_CONTROL = _BV(UART0_BIT_RXCIE) | (1 << UART0_BIT_RXEN) | (1 << UART0_BIT_TXEN);
- 7d2:	88 e9       	ldi	r24, 0x98	; 152
- 7d4:	80 93 c1 00 	sts	0x00C1, r24	; 0x8000c1 <__DATA_REGION_ORIGIN__+0x61>
-    /* Set frame format: asynchronous, 8data, no parity, 1stop bit */
-    #ifdef UART0_CONTROLC
-    # ifdef UART0_BIT_URSEL
-    UART0_CONTROLC = (1 << UART0_BIT_URSEL) | (1 << UART0_BIT_UCSZ1) | (1 << UART0_BIT_UCSZ0);
-    # else
-    UART0_CONTROLC = (1 << UART0_BIT_UCSZ1) | (1 << UART0_BIT_UCSZ0);
- 7d8:	86 e0       	ldi	r24, 0x06	; 6
- 7da:	80 93 c2 00 	sts	0x00C2, r24	; 0x8000c2 <__DATA_REGION_ORIGIN__+0x62>
- 7de:	08 95       	ret
-
-000007e0 <_exit>:
- 7e0:	f8 94       	cli
-
-000007e2 <__stop_program>:
- 7e2:	ff cf       	rjmp	.-2      	; 0x7e2 <__stop_program>
+00000904 <__stop_program>:
+ 904:	ff cf       	rjmp	.-2      	; 0x904 <__stop_program>
