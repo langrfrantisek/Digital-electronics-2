@@ -28,9 +28,6 @@
 #define F_CPU 16000000      // CPU frequency in Hz required for delay func
 #endif
 
-volatile uint8_t btn_pressed = 13;   //remember last pressed button, 13 by default means none of the 4x3 keyboard buttons
-uint16_t ADC_value = 0;
-
 uint8_t customChar[32] = {
     // sine 
     0b00000, 0b01000, 0b10100, 0b10100, 0b00101, 0b00101, 0b00010, 0b00000,
@@ -160,33 +157,6 @@ int main(void)
     {
         /* Empty loop. All subsequent operations are performed exclusively 
          * inside interrupt service routines ISRs */ 
-        
-        
-        /*if (ADSC == 0)
-        {
-            value = ADC;
-            
-            if (value > 1017)
-            {
-                //nothing pressed
-            }
-            else if (value < 5)
-            {
-                btn_pressed = 1;
-            }
-            else if (value > 97 && value < 107)
-            {
-                btn_pressed = 2;
-            }
-            else if (value > 180 && value < 190)
-            {
-                btn_pressed = 3;
-            }
-            else if (value > 250 && value < 260)
-            {
-                btn_pressed = 4;
-            }
-        }*/
     }
     
     // Will never reach this
@@ -199,7 +169,14 @@ ISR(TIMER0_OVF_vect)
 	static int16_t number_of_overflows = 0;
     static uint8_t value = 0;
     static uint8_t lookup_number = 0;
-    btn_pressed = 1;
+    static uint16_t ADC_value = 1000;
+    static uint8_t freq = 1;
+    static uint8_t freq_next = 1;
+    static uint8_t freq_control = 0;
+    static uint8_t control = 0;
+    static uint8_t btn_pressed = 11;   //remember last pressed button, 11 by default means 0 pressed
+    static uint8_t btn_pressed_next = 11;
+    char lcd_string[10] = "          ";
     
     ADCSRA |= (1 << ADSC);
     ADC_value = ADC;
@@ -207,29 +184,68 @@ ISR(TIMER0_OVF_vect)
     //Writing values to pins, where is the R-2R connected
     PORTD = value & 0b11111100;
     PORTB = (value & 0b00000011) << 2;
+    
+    if (btn_pressed != 11 && control == 0)
+    {
+        lcd_gotoxy(0, 0);
+        lcd_puts("Pressed:   Exit0");
+        lcd_gotoxy(0, 1);
+        lcd_puts("*f-- #f++     Hz");
+        control = 1;
+    }
      
-    /*if (ADC_value < 5)
+    
+    lcd_gotoxy(8, 0); 
+    if (ADC_value < 5)
     {
         btn_pressed = 1;
+        lcd_putc('1');
+        lcd_putc(0);
     }
     else if (ADC_value > 97 && ADC_value < 107)
     {
         btn_pressed = 2;
+        lcd_putc('2');
+        lcd_putc(1);
     }
     else if (ADC_value > 180 && ADC_value < 190)
     {
         btn_pressed = 3;
+        lcd_putc('3');
+        lcd_putc(2);
     }
     else if (ADC_value > 250 && ADC_value < 260)
     {
         btn_pressed = 4;
-    }*/
+        lcd_putc('4');
+        lcd_putc(3);
+    }
+    else if (ADC_value > 506 && ADC_value < 516)
+    {
+        //lcd_putc('*');
+        btn_pressed_next = 10;
+                
+    }
+    else if (ADC_value > 533 && ADC_value < 543)
+    {
+        //lcd_putc('0');
+        btn_pressed = 11;
+    }
+    else if (ADC_value > 557 && ADC_value < 567)
+    {
+        //lcd_putc('#');
+        btn_pressed_next = 12;
+    }
+    else if (ADC_value > 1017)
+    {
+        freq_control++;
+    }
     
     //Sine function
     if (btn_pressed == 1)
     {
         value = sine_wave[lookup_number];
-        lookup_number++;
+        lookup_number += freq;
     }
     
     //Square function
@@ -254,7 +270,7 @@ ISR(TIMER0_OVF_vect)
     {
         if (number_of_overflows < 256)
         {        
-        value++;
+            value++;
         } 
         else if (number_of_overflows < 511)
         {
@@ -263,7 +279,7 @@ ISR(TIMER0_OVF_vect)
         else 
         {
             number_of_overflows = 0;
-            //value = 0;
+            value = 0;
         }
     }
       
@@ -272,8 +288,62 @@ ISR(TIMER0_OVF_vect)
     {
         value++;
     }
-            
+    
+    //*
+    if (btn_pressed_next == 10)
+    {
+        btn_pressed_next = btn_pressed;
+        if (freq_next == freq && freq > 1)
+        {
+            freq_next = freq - 1;
+        }
+    }
+    
+    // 0 pressed
+    if (btn_pressed == 11)
+    {  
+        lcd_gotoxy(0, 0);
+        lcd_puts(" Choose signal: ");
+        lcd_gotoxy(0, 1);
+        lcd_puts(" 1");
+        lcd_putc(0);
+        lcd_puts("  2");
+        lcd_putc(1);
+        lcd_puts("  3");
+        lcd_putc(2);
+        lcd_puts("  4");
+        lcd_putc(3);
+        lcd_putc(' ');
+        
+        value = 0;
+        control = 0;
+        freq_next = 1;
+        freq = 1;
+    } 
+    
+    //#
+    if (btn_pressed_next == 12)
+    {
+        btn_pressed_next = btn_pressed;
+        if (freq_next == freq)
+        {
+            freq_next = freq + 1;
+        }                  
+    }
+     
+    if (freq_control >= 100)
+    {
+        freq = freq_next;
+        freq_control = 0;
+    }
+          
     number_of_overflows++;   
+    
+    //send data through UART
+    /*itoa(btn_pressed, lcd_string, 10);    // Convert to string
+    uart_puts("btn: ");
+    uart_puts(lcd_string);
+    uart_puts("\r\n");*/
     
 }
 /* -------------------------------------------------------------------*/
